@@ -1,0 +1,397 @@
+\documentclass[12pt,a4paper]{article}
+
+% ==================================================
+% PACKAGES
+% ==================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,mongolian]{babel}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+
+\usepackage{geometry}
+\geometry{
+	left=2.5cm,
+	right=2.5cm,
+	top=2.5cm,
+	bottom=2.5cm
+}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{natbib}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=black,
+	urlcolor=blue
+}
+
+% ==================================================
+% TITLE
+% ==================================================
+
+\title{
+	\textbf{A Comparison of Covariance Matrix Shrinkage Methods
+		for Portfolio Selection}
+}
+
+\author{
+	Narangoo Ganbaatar$^{1}$ \qquad Ankhbayar Chuluunbaatar$^{2}$\\
+	\small $^{1}$School of Information Technology and Electronics, National University of Mongolia\\
+	\small \texttt{narangoo.g@num.edu.mn}\\
+	\small $^{2}$Business School, National University of Mongolia\\
+	\small \texttt{ankhbayar.ch@num.edu.mn}
+}
+
+\date{}
+
+\date{}
+
+% ==================================================
+% DOCUMENT
+% ==================================================
+
+\begin{document}
+	
+	\maketitle
+	
+	% ==================================================
+	% ABSTRACT
+	% ==================================================
+	
+	\begin{abstract}
+		
+		This study compares alternative covariance matrix shrinkage
+		estimators in the context of portfolio selection.
+		The performance of the estimators is evaluated using the
+		Global Minimum Variance Portfolio (GMVP).
+		
+		\medskip
+		
+		\noindent
+		\textbf{Keywords:}
+		Covariance matrix,
+		Shrinkage estimation,
+		Portfolio selection,
+		Global minimum variance portfolio,
+		Ledoit--Wolf.
+		
+	\end{abstract}
+	
+	
+	% ==================================================
+	% 1. INTRODUCTION
+	% ==================================================
+	
+	\section{Introduction}
+	
+	Portfolio optimization requires reliable estimates of the
+	covariance matrix of asset returns.
+	
+	The traditional sample covariance matrix may perform poorly,
+	particularly when the number of assets is large relative to
+	the number of observations.
+	
+	Shrinkage estimators provide an alternative approach by
+	combining the sample covariance matrix with a structured
+	target matrix.
+	
+	The main objective of this study is to compare different
+	covariance matrix shrinkage methods in the context of
+	minimum-variance portfolio selection.
+	
+	
+	% ==================================================
+	% 2. LITERATURE REVIEW
+	% ==================================================
+	
+	\section{Literature Review}
+	
+	Covariance matrix estimation has received considerable
+	attention in portfolio theory.
+	
+	The shrinkage approach was introduced into portfolio
+	applications by \citet{ledoit2004}.
+	
+	More recent studies have considered both linear and
+	nonlinear shrinkage estimators.
+	
+	
+	% ==================================================
+	% 3. METHODOLOGY
+	% ==================================================
+	
+	\section{Methodology}
+	
+	
+	% --------------------------------------------------
+	\subsection{Sample Covariance Matrix}
+	% --------------------------------------------------
+	
+	Let
+	
+	\[
+	R_t =
+	\begin{pmatrix}
+		R_{1t}\\
+		R_{2t}\\
+		\vdots\\
+		R_{Nt}
+	\end{pmatrix}
+	\]
+	
+	denote the vector of asset returns.
+	
+	The sample covariance matrix is
+	
+	\begin{equation}
+		S
+		=
+		\frac{1}{T}
+		\sum_{t=1}^{T}
+		(R_t-\bar R)(R_t-\bar R)'.
+	\end{equation}
+	
+	
+	% --------------------------------------------------
+	\subsection{Linear Shrinkage Estimation}
+	% --------------------------------------------------
+	
+	The general linear shrinkage estimator is defined as
+	
+	\begin{equation}
+		\widehat{\Sigma}
+		=
+		\delta F
+		+
+		(1-\delta)S,
+	\end{equation}
+	
+	where
+	
+	\begin{itemize}
+		
+		\item $S$ is the sample covariance matrix,
+		
+		\item $F$ is the shrinkage target matrix,
+		
+		\item $\delta \in [0,1]$ is the shrinkage intensity.
+		
+	\end{itemize}
+	
+	
+	% --------------------------------------------------
+	\subsection{Shrinkage Targets}
+	% --------------------------------------------------
+	
+	Several target matrices are considered in this study.
+	
+	\subsubsection{Constant Variance Target}
+	
+	\subsubsection{Diagonal Target}
+	
+	\subsubsection{Constant Correlation Target}
+	
+	\subsubsection{Single-Factor Target}
+	
+	
+	% --------------------------------------------------
+	\subsection{Nonlinear Shrinkage}
+	% --------------------------------------------------
+	
+	The nonlinear shrinkage estimator can be expressed as
+	
+	\begin{equation}
+		\widehat{\Sigma}_{NLS}
+		=
+		U
+		\widehat{D}
+		U',
+	\end{equation}
+	
+	where $U$ contains the eigenvectors of the sample covariance
+	matrix and
+	
+	\[
+	\widehat{D}
+	=
+	\operatorname{diag}
+	(\widehat d_1,\ldots,\widehat d_N)
+	\]
+	
+	contains the shrunk eigenvalues.
+	
+	
+	% ==================================================
+	% 4. PORTFOLIO OPTIMIZATION
+	% ==================================================
+	
+	\section{Portfolio Optimization}
+	
+	This study considers the Global Minimum Variance Portfolio
+	(GMVP).
+	
+	The optimization problem is
+	
+	\begin{equation}
+		\min_{w}
+		\quad
+		w'\widehat{\Sigma}w
+	\end{equation}
+	
+	subject to
+	
+	\begin{equation}
+		\mathbf{1}'w = 1.
+	\end{equation}
+	
+	The analytical solution is
+	
+	\begin{equation}
+		w_{\mathrm{GMVP}}
+		=
+		\frac{
+			\widehat{\Sigma}^{-1}\mathbf{1}
+		}{
+			\mathbf{1}'
+			\widehat{\Sigma}^{-1}
+			\mathbf{1}
+		}.
+	\end{equation}
+	
+	
+	% ==================================================
+	% 5. DATA
+	% ==================================================
+	
+	\section{Data}
+	
+	This section describes the dataset used in the empirical
+	analysis.
+	
+	\begin{table}[htbp]
+		
+		\centering
+		
+		\caption{Descriptive Statistics}
+		
+		\begin{tabular}{lrrrr}
+			
+			\toprule
+			
+			Asset & Mean & Std. Dev. & Minimum & Maximum \\
+			
+			\midrule
+			
+			Asset 1 & 0.00 & 0.00 & 0.00 & 0.00\\
+			Asset 2 & 0.00 & 0.00 & 0.00 & 0.00\\
+			Asset 3 & 0.00 & 0.00 & 0.00 & 0.00\\
+			
+			\bottomrule
+			
+		\end{tabular}
+		
+	\end{table}
+	
+	
+	% ==================================================
+	% 6. EMPIRICAL RESULTS
+	% ==================================================
+	
+	\section{Empirical Results}
+	
+	
+	\subsection{Covariance Matrix Estimation}
+	
+	The estimated covariance matrices are compared in terms of
+	their statistical properties.
+	
+	
+	\subsection{Portfolio Weights}
+	
+	The GMVP weights obtained from different covariance
+	estimators are compared.
+	
+	
+	\subsection{Portfolio Performance}
+	
+	Portfolio performance is evaluated using volatility,
+	variance, Sharpe ratio, and portfolio turnover.
+	
+	\begin{table}[htbp]
+		
+		\centering
+		
+		\caption{GMVP Performance Comparison}
+		
+		\begin{tabular}{lrrrr}
+			
+			\toprule
+			
+			Estimator &
+			Return &
+			Volatility &
+			Sharpe Ratio &
+			Turnover \\
+			
+			\midrule
+			
+			Sample Covariance & & & & \\
+			Constant Variance & & & & \\
+			Diagonal & & & & \\
+			Constant Correlation & & & & \\
+			Single Factor & & & & \\
+			Nonlinear Shrinkage & & & & \\
+			
+			\bottomrule
+			
+		\end{tabular}
+		
+	\end{table}
+	
+	
+	% ==================================================
+	% 7. DISCUSSION
+	% ==================================================
+	
+	\section{Discussion}
+	
+	This section discusses the empirical differences between
+	the covariance matrix estimators and their implications for
+	portfolio selection.
+	
+	
+	% ==================================================
+	% 8. CONCLUSION
+	% ==================================================
+	
+	\section{Conclusion}
+	
+	This study compares several covariance matrix shrinkage
+	methods for constructing global minimum variance portfolios.
+	
+	The empirical results demonstrate how covariance estimation
+	affects portfolio risk, asset allocation, and portfolio
+	stability.
+	
+	
+	% ==================================================
+	% REFERENCES
+	% ==================================================
+	
+	\nocite{*}
+	\bibliographystyle{apalike}
+	\bibliography{references}
+	
+\end{document}

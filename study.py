@@ -3,6 +3,8 @@ import numpy as np
 import yfinance as yf
 from sklearn.covariance import LedoitWolf
 from pypfopt.risk_models import CovarianceShrinkage
+from scipy.stats import norm
+from scipy.optimize import minimize
 
 writer = pd.ExcelWriter("Ledoit_Wolf_Results.xlsx", engine="openpyxl")
 
@@ -272,7 +274,6 @@ print(eigenvalues_sample.round(5))
 print(U_nls.round(5))
 
 sort_idx = np.argsort(eigenvalues_sample)
-print(sort_idx.round(5))
 lambda_sample = eigenvalues_sample[sort_idx]
 lambda_sample_df = pd.DataFrame(
     lambda_sample,
@@ -375,6 +376,92 @@ print("\nХувийн утгуудын харьцуулалт:")
 print(eigen_comparison.round(5))
 eigen_comparison.round(5).to_excel(writer, sheet_name="Eigenvalues_NLS")
 
+cov_matrices = {
+    "Sample (S)": S_matrix,
+    "Sigma_var": Sigma_var.values if isinstance(Sigma_var, pd.DataFrame) else Sigma_var,
+    "Sigma_diag": Sigma_diag.values if isinstance(Sigma_diag, pd.DataFrame) else Sigma_diag,
+    "Sigma_corr": Sigma_corr.values if isinstance(Sigma_corr, pd.DataFrame) else Sigma_corr,
+    "Sigma_SF": Sigma_SF.values if isinstance(Sigma_SF, pd.DataFrame) else Sigma_SF,
+    "Sigma_NLS": Sigma_NLS.values if isinstance(Sigma_NLS, pd.DataFrame) else Sigma_NLS,
+}
+
+mu_vec = Y.mean().to_numpy()
+print(mu_vec)
+mu_vec_df = pd.DataFrame(
+    mu_vec,
+    index=Y_clean.columns,
+    columns=["mu_vec"]
+)
+mu_vec_df.round(5).to_excel(writer, sheet_name="mu_vec")
+
+def get_gmvp_weights(cov):
+    inv_cov = np.linalg.inv(cov)
+    ones = np.ones(cov.shape[0])
+    w = inv_cov.dot(ones) / ones.T.dot(inv_cov).dot(ones)
+    return w
+
+def optimize_custom_model(mu, Sigma, mu_0, c_0, sigma_0_sq, p_val):
+    """Логнормаль эрсдэлтэй оновчлолын функц"""
+    N_assets = len(mu)
+    
+    def objective(x):
+        port_ret  = np.dot(x, mu)
+        port_var = np.dot(x.T, np.dot(Sigma, x))
+        return (0.5 * port_var) / (port_ret + 1e-8)
+
+    cons = [
+        {'type': 'ineq', 'fun': lambda x: np.dot(x, mu) - mu_0},
+        {'type': 'ineq', 'fun': lambda x: sigma_0_sq - np.dot(x.T, np.dot(Sigma, x))},
+        {'type': 'eq', 'fun': lambda x: np.sum(x) - 1.0}
+    ]
+    
+    diag_stdevs = np.sqrt(np.diag(Sigma))
+    lognorm_factors = np.exp(mu + diag_stdevs * norm.ppf(p_val))
+    cons.append({'type': 'ineq', 'fun': lambda x: c_0 - np.dot(x, lognorm_factors)})
+    
+    bounds = tuple((0, 1) for _ in range(N_assets))
+    init_guess = np.ones(N_assets) / N_assets
+    
+    res = minimize(objective, init_guess, method='SLSQP', bounds=bounds, constraints=cons)
+    return res.x if res.success else init_guess
+
+
+
+# ЛОГНОРМАЛЬ ЗАГВАРЫН ТООЦООЛОЛ
+
+mu_0 = mu_vec.mean()
+c_0 = 2.0
+sigma_0_sq = 0.05
+p_val = 0.05
+
+w_S_custom = optimize_custom_model(mu_vec, S_matrix, mu_0, c_0, sigma_0_sq, p_val)
+
+custom_weights = {}
+custom_summary = []
+
+for name, cov in cov_matrices.items():
+    w = optimize_custom_model(mu_vec, cov, mu_0, c_0, sigma_0_sq, p_val)
+    custom_weights[name] = w
+    
+    port_ret = np.dot(w, mu_vec)
+    port_var = np.dot(w.T, np.dot(cov, w))
+    port_vol = np.sqrt(port_var)
+    sharpe = port_ret / port_vol if port_vol > 0 else 0
+    turnover = np.sum(np.abs(w - w_S_custom))
+    
+    custom_summary.append({
+        "Загвар": name,
+        "Өгөөж": port_ret,
+        "Дисперс": port_var,
+        "Хэлбэл": port_vol,
+        "Sharpe харьцаа": sharpe,
+        "Turnover_vs_S": turnover
+    })
+
+custom_weights_df = pd.DataFrame(custom_weights, index=Y.columns)
+custom_summary_df = pd.DataFrame(custom_summary)
+print(custom_weights_df.round(4))
+custom_weights_df.round(5).to_excel(writer, sheet_name="Custom_Model_Weights")
+custom_summary_df.round(5).to_excel(writer, sheet_name="Custom_Model_Summary")
+
 writer.close()
-
-
