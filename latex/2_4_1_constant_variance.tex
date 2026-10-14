@@ -1,35 +1,40 @@
+
 % --------------------------------------------------
 \subsubsection{Тогтмол вариацын зорилтот матриц}
 % --------------------------------------------------
 
-Тогтмол вариацын зорилтот матриц нь бүх хөрөнгийн вариацыг нэг нийтлэг утгаар төлөөлүүлж, хөрөнгүүдийн хоорондын ковариацыг тэг гэж үздэг. Уг зорилтот матрицыг
+Тогтмол вариацын зорилтот матриц нь бүх хөрөнгийн
+вариацыг нэг нийтлэг утгаар төлөөлүүлж, хөрөнгүүдийн
+хоорондын ковариацыг тэг гэж үздэг.
+Уг зорилтот матрицыг
 \[
-T_{\mathrm{var}}
-=
-\mu I
+T_{\mathrm{var}}=\widehat{\mu}I
 \]
-гэж тодорхойлно. Энд $I$ нь $N\times N$ хэмжээст нэгж матриц, харин
+гэж тодорхойлно. Энд $I$ нь $N\times N$
+хэмжээст нэгж матриц, харин
 \[
-\mu
+\widehat{\mu}
 =
 \frac{1}{N}\sum_{i=1}^{N}s_{ii}
 =
 \frac{\operatorname{tr}(S)}{N}
 \]
-нь хөрөнгүүдийн өгөөжийн түүврийн вариацуудын дундаж юм. Иймээс тогтмол вариацын зорилтот матриц
+нь хөрөнгүүдийн өгөөжийн түүврийн
+вариацуудын дундаж юм. Иймээс
 \[
 T_{\mathrm{var}}
 =
 \begin{pmatrix}
-	\mu & 0 & \cdots & 0\\
-	0 & \mu & \cdots & 0\\
-	\vdots & \vdots & \ddots & \vdots\\
-	0 & 0 & \cdots & \mu
+	\widehat{\mu}&0&\cdots&0\\
+	0&\widehat{\mu}&\cdots&0\\
+	\vdots&\vdots&\ddots&\vdots\\
+	0&0&\cdots&\widehat{\mu}
 \end{pmatrix}
 \]
 хэлбэртэй байна \citep{ledoitwolf2004a}.
 
-Тогтмол вариацын зорилтот матрицад суурилсан шугаман агшилтын үнэлэгчийг
+Тогтмол вариацын зорилтот матрицад
+суурилсан шугаман агшилтын үнэлэгчийг
 \[
 \widehat{\Sigma}_{\mathrm{var}}
 =
@@ -37,180 +42,374 @@ T_{\mathrm{var}}
 +
 \widehat{\alpha}_{\mathrm{var}}T_{\mathrm{var}},
 \qquad
-0\leq\widehat{\alpha}_{\mathrm{var}}\leq1,
+0\leq\widehat{\alpha}_{\mathrm{var}}\leq1
 \]
-гэж тодорхойлно. Энд $\widehat{\alpha}_{\mathrm{var}}$ нь тогтмол вариацын зорилтот матрицад харгалзах агшилтын эрчим юм.
+гэж тодорхойлно.
 
-\paragraph{Агшилтын эрчмийн үнэлгээ.}
-
-Ledoit--Wolf-ийн аргаар агшилтын эрчмийг үнэлэхдээ түүврийн ковариацын матриц болон зорилтот матрицын хоорондын зай, мөн түүврийн ковариацын матрицын элементүүдийн түүвэрлэлтийн хэлбэлзлийг ашиглана \citep{ledoitwolf2004a}.
-
-Эхлээд түүврийн ковариацын матриц $S$ болон тогтмол вариацын зорилтот матриц $T_{\mathrm{var}}$ хоорондын квадрат Фробениусын зайг
+Агшилтын эрчмийн онолын үндэслэлийг
+Ledoit болон Wolf (2004)-ийн үр дүнд
+тулгуурлан дараах хэмжигдэхүүнүүдийг авч үзье:
 \[
-\widehat{\gamma}_{\mathrm{var}}
-=
-\left\|
-S-T_{\mathrm{var}}
-\right\|_F^2
+\begin{aligned}
+	a&=E\left[\|\Sigma-T\|^2\right]=\|\Sigma-T\|^2,\\
+	b&=E\left[\|S-\Sigma\|^2\right],\\
+	d&=E\left[\|S-T\|^2\right].
+\end{aligned}
 \]
-гэж тодорхойлно. Уг зайг матрицын элементүүдээр илэрхийлбэл
-\[
-\widehat{\gamma}_{\mathrm{var}}
-=
-\sum_{i=1}^{N}
-\sum_{j=1}^{N}
-(s_{ij}-t_{ij})^2,
-\]
-энд $s_{ij}$ болон $t_{ij}$ нь харгалзан $S$ болон $T_{\mathrm{var}}$ матрицын $(i,j)$-р элементүүд юм.
 
-Дараа нь түүврийн ковариацын матрицын элементүүдийн түүвэрлэлтийн хэлбэлзлийг тооцохын тулд
+\medskip
+\noindent
+\textbf{Лемма 1 (Ledoit--Wolf, 2004).}
+Хэрэв $E[S]=\Sigma$ бөгөөд квадратын математик дунджууд төгсгөлөг бол
 \[
-z_{tij}
-=
-(y_{ti}-\overline{Y}_i)
-(y_{tj}-\overline{Y}_j)
+a+b=d
 \]
-гэж тэмдэглэе. Энд $y_{ti}-\overline{Y}_i$ нь $t$-р ажиглалт дахь $i$-р хөрөнгийн өгөөж болон тухайн хөрөнгийн дундаж өгөөжийн зөрүүг илэрхийлнэ. Тэгвэл түүврийн ковариацын элемент
+тэнцэтгэл биелнэ.
+
+\medskip
+\noindent
+\textit{Баталгаа.}
+Математик дундаж ба нормын чанараас
 \[
-s_{ij}
+\begin{aligned}
+	d
+	&=E\left[\|S-T\|^2\right]=E\left[\|S-\Sigma+\Sigma-T\|^2\right]\\
+	&=E\left[\|S-\Sigma\|^2\right]
+	+\|\Sigma-T\|^2+
+	2E\left[
+	\langle S-\Sigma,\Sigma-T\rangle
+	\right].
+\end{aligned}
+\]
+
+$E[S]=\Sigma$ бөгөөд $T$ нь
+санамсаргүй бус матриц тул
+\[
+E\left[
+\langle S-\Sigma,\Sigma-T\rangle
+\right]
 =
-\frac{1}{n}
-\sum_{t=1}^{n}z_{tij}
+\langle E[S-\Sigma],\Sigma-T\rangle
+=0.
+\]
+
+Иймээс
+\[
+d=b+a.
+\]
+Лемма батлагдав. \hfill $\square$
+
+\medskip
+\noindent
+\textbf{Теорем 1 (Ledoit--Wolf, 2004).}
+Дараах оновчлолын бодлогыг авч үзье:
+\[
+\min_{0\leq\alpha\leq1}
+E\left[
+\|\Sigma^*(\alpha)-\Sigma\|^2
+\right],
+\]
+энд
+\[
+\Sigma^*(\alpha)
+=
+(1-\alpha)S+\alpha T.
+\]
+
+Хэрэв $d>0$ бол оновчтой
+агшилтын эрчим
+\[
+\alpha^*=\frac{b}{d}
+\]
+бөгөөд харгалзах үнэлэгч
+\[
+	\Sigma^*
+	=
+	\frac{a}{d}S
+	+
+	\frac{b}{d}T
 \]
 байна.
 
-Түүврийн ковариацын матрицын элементүүдийн түүвэрлэлтийн хэлбэлзлийг нэгтгэн хэмжих хэмжигдэхүүнийг
+\medskip
+\noindent
+\textit{Баталгаа.}
+Агшилтын үнэлэгчийн алдааг
 \[
-\widehat{\pi}
+\Sigma^*(\alpha)-\Sigma
 =
-\frac{1}{n}
-\sum_{t=1}^{n}
-\sum_{i=1}^{N}
-\sum_{j=1}^{N}
-(z_{tij}-s_{ij})^2
+(1-\alpha)(S-\Sigma)
++\alpha(T-\Sigma)
 \]
-гэж тооцно. Энд $z_{tij}-s_{ij}$ нь $t$-р ажиглалтаар тооцогдох $i$ болон $j$-р хөрөнгийн өгөөжийн хамтын өөрчлөлт нь тэдгээрийн түүврийн ковариац $s_{ij}$-аас хэр зэрэг зөрж байгааг илэрхийлнэ.
+гэж бичиж болно.
 
-Тогтмол вариацын зорилтот матрицад харгалзах агшилтын эрчмийг
+Одоо нормын квадратын томьёо болон математик дунджийн шугаман чанарыг хэрэглэнэ.
+\[
+\begin{aligned}
+	\|\Sigma^*(\alpha)-\Sigma\|^2&=\|(1-\alpha)(S-\Sigma)
+	+\alpha(T-\Sigma)\|^2\\
+	&=(1-\alpha)^2\|S-\Sigma\|^2+\alpha^2\|T-\Sigma\|^2+2\alpha(1-\alpha)
+	\langle S-\Sigma,T-\Sigma\rangle.
+\end{aligned}
+\]
+
+Хоёр талаас математик дундаж авбал:
+\[
+\begin{aligned}
+	E\left[\|\Sigma^*(\alpha)-\Sigma\|^2\right]&=(1-\alpha)^2E\left[\|S-\Sigma\|^2\right]+\alpha^2E\left[\|T-\Sigma\|^2\right]+2\alpha(1-\alpha)E\left[\langle S-\Sigma,T-\Sigma\rangle\right]\\
+	&=
+	(1-\alpha)^2b+\alpha^2a.
+\end{aligned}
+\]
+
+Иймээс зорилгын функц
+\[
+R(\alpha)
+=
+(1-\alpha)^2b+\alpha^2a
+\]
+болно.
+
+Алдааг хамгийн бага болгох \(\alpha\)-г олох нь бидний зорилго учраас уламжлал аваад тэгтэй тэнцүүлнэ.
+\[
+R'(\alpha)
+=
+-2(1-\alpha)b+2\alpha a=0.
+\]
+
+Лемма 1-ээс $a+b=d$ тул
+\[
+\alpha^*=\frac{b}{d}, \qquad 
+1-\alpha^*=\frac{a}{d}.
+\]
+
+Иймээс
+\[
+	\Sigma^*
+	=
+	\frac{a}{d}S
+	+
+	\frac{b}{d}T.
+\]
+
+$R''(\alpha)=2d>0$ учраас
+энэ нь минимум шийд юм.
+
+Теорем батлагдав. \hfill $\square$
+
+\medskip
+
+
+
+Теорем 1-ээс оновчтой агшилтын
+эрчим нь түүврийн ковариацын матрицын
+үнэлгээний алдаа болон зорилтот
+матрицаас хазайх хэмжээнээс
+хамаарах нь харагдана.
+
+Гэвч $b$ болон $d$ нь үл мэдэгдэх
+бодит ковариацын матрицаас хамаардаг
+тул тэдгээрийг өгөгдлөөс үнэлэх
+шаардлагатай. Ledoit болон Wolf (2004)-ийн
+оновчтой агшилтын
+эрчмийг өгөгдлөөс үнэлэх аргыг
+боловсруулсан.
+
+Түүврийн ковариацын матриц болон
+зорилтот матрицын хоорондын
+квадрат Фробениусын зайг
+\[
+\widehat{d}_{\mathrm{var}}
+=
+\|S-T_{\mathrm{var}}\|_F^2
+=
+\frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{N}
+(s_{ij}-t_{ij})^2
+\]
+гэж тодорхойлно.
+
+Түүврийн ковариацын матрицын хүлээгдэж буй
+квадрат алдааг нормчилсон Фробениусын нормын
+тодорхойлолтоос
+\[
+	b_{var}=E\left[\|S-\Sigma\|^2\right]=\frac{1}{N}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	E\left[(s_{ij}-\sigma_{ij})^2\right].
+\]
+
+Хэрэв $E[S]=\Sigma$ бол $E\left[(s_{ij}-\sigma_{ij})^2\right]
+=
+\operatorname{Var}(s_{ij}).$
+
+Иймээс
+\[
+b_{var}
+=
+\frac{1}{N}
+\sum_{i=1}^{N}\sum_{j=1}^{N}
+\operatorname{Var}(s_{ij}).
+\]
+
+Одоо
+\[
+s_{ij}=\frac{1}{n}\sum_{t=1}^{n}\{(y_{ti}-\overline{Y}_i)
+(y_{tj}-\overline{Y}_j)\}
+\]
+гэж тэмдэглэе.
+
+Ажиглалтууд хугацааны хувьд
+харилцан хамааралгүй, ижил тархалттай
+бол
+\[
+	\operatorname{Var}(s_{ij})\approx
+	\frac{1}{n^2}
+	\sum_{t=1}^{n}\operatorname{Var}\left((y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)\right)=
+	\frac{1}{n}\operatorname{Var}\left((y_{1i}-\overline{Y}_i)
+	(y_{1j}-\overline{Y}_j)\right).
+\]
+
+Тэгвэл
+\[
+	b_{var}=\frac{1}{N}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	\frac{1}{n}\operatorname{Var}\left((y_{1i}-\overline{Y}_i)
+	(y_{1j}-\overline{Y}_j)\right)=
+	\frac{1}{nN}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	\operatorname{Var}\left((y_{1i}-\overline{Y}_i)
+	(y_{1j}-\overline{Y}_j)\right).
+\]
+
+Энд $\operatorname{Var}\left((y_{1i}-\overline{Y}_i)
+(y_{1j}-\overline{Y}_j)\right)$ нь
+үл мэдэгдэх тул түүний үнэлгээг $\frac{1}{n}
+\sum_{t=1}^{n}((y_{ti}-\overline{Y}_i)
+(y_{tj}-\overline{Y}_j)-s_{ij})^2$ байгуулвал
+\[
+	\widehat{b}_{var}=
+	\frac{1}{nN}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	\left[
+	\frac{1}{n}\sum_{t=1}^{n}
+	\left\{(y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)-s_{ij}\right\}^2
+	\right]=
+	\]
+	\[=
+	\frac{1}{nN}
+	\left[
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	\left\{(y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)-s_{ij}\right\}^2
+	\right].
+\]
+Иймээс агшилтын эрчмийн
+практик үнэлгээг
 \[
 \widehat{\alpha}_{\mathrm{var}}
-=
-\max
-\left\{
-0,
-\min
-\left(
-1,
-\frac{\widehat{\pi}}
-{n\widehat{\gamma}_{\mathrm{var}}}
-\right)
-\right\}
+	=
+	\max\left\{
+	0,\,
+	\min\left\{
+	1,\,
+	\frac{\widehat{b}_{var}}
+	{\widehat{d}_{\mathrm{var}}}
+	\right\}
+	\right\}
 \]
-гэж тооцно \citep{ledoitwolf2004a}. Ийнхүү $0\leq\widehat{\alpha}_{\mathrm{var}}\leq1$ нөхцөл хангагдана.
+гэж байгуулна \citep{ledoitwolf2004a}.
 
-Эцэст нь тогтмол вариацын зорилтот матрицад суурилсан агшилтын ковариацын матрицыг
-\[
-\widehat{\Sigma}_{\mathrm{var}}
-=
-(1-\widehat{\alpha}_{\mathrm{var}})S
-+
-\widehat{\alpha}_{\mathrm{var}}T_{\mathrm{var}}
-\]
-гэж олно.
 
 \paragraph{Тооцоолох алгоритм.}
 
-Тогтмол вариацын зорилтот матрицад суурилсан агшилтын ковариацын матрицыг дараах үе шаттайгаар тооцно.
+Тогтмол вариацын зорилтот матрицад суурилсан
+агшилтын ковариацын матрицыг дараах
+дарааллаар тооцоолно.
 
 \begin{enumerate}
-	\item Хөрөнгө тус бүрийн дундаж өгөөжийг тооцно.
-	\[
-	\overline{Y}_i
-	=
-	\frac{1}{n}
-	\sum_{t=1}^{n}y_{ti},
-	\qquad
-	i=1,2,\ldots,N.
-	\]
+	\item Түүврийн ковариацын матрицыг байгуулах.
 	
-	\item Түүврийн ковариацын матрицыг байгуулна.
+	$n$ ажиглалт, $N$ хөрөнгийн өгөөжийн
+	өгөгдлөөс
 	\[
 	s_{ij}
 	=
 	\frac{1}{n}
 	\sum_{t=1}^{n}
 	(y_{ti}-\overline{Y}_i)
-	(y_{tj}-\overline{Y}_j),
-	\]
-	томьёогоор $S=(s_{ij})$ матрицыг тооцно.
-	
-	\item Түүврийн вариацуудын дундажийг тооцно.
-	\[
-	\mu
-	=
-	\frac{1}{N}
-	\sum_{i=1}^{N}s_{ii}
-	=
-	\frac{\operatorname{tr}(S)}{N}.
-	\]
-	
-	\item Тогтмол вариацын зорилтот матрицыг байгуулна.
-	\[
-	T_{\mathrm{var}}
-	=
-	\mu I.
-	\]
-	
-	\item Түүврийн ковариацын матриц болон зорилтот матрицын хоорондын квадрат Фробениусын зайг тооцно.
-	\[
-	\widehat{\gamma}_{\mathrm{var}}
-	=
-	\left\|
-	S-T_{\mathrm{var}}
-	\right\|_F^2.
-	\]
-	
-	\item Түүврийн ковариацын матрицын элементүүдийн түүвэрлэлтийн хэлбэлзлийг тооцно. Эхлээд
-	\[
-	z_{tij}
-	=
-	(y_{ti}-\overline{Y}_i)
 	(y_{tj}-\overline{Y}_j)
 	\]
-	гэж тооцоод,
+	гэж тооцож, $S=(s_{ij})$ матрицыг байгуулна.
+	
+	\item Тогтмол вариацын зорилтот
+	матрицыг байгуулах.
+	
 	\[
-	\widehat{\pi}
+	\widehat{\mu}
 	=
+	\frac{1}{N}\sum_{i=1}^{N}s_{ii},
+	\qquad
+	T_{\mathrm{var}}=\widehat{\mu}I.
+	\]
+	
+	\item Ковариацын матрицын
+	квадрат алдааг үнэлэх.
+	\[
+	\widehat{b}_{var}
+	=
+	\frac{1}{nN}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	\left[
 	\frac{1}{n}
 	\sum_{t=1}^{n}
-	\sum_{i=1}^{N}
-	\sum_{j=1}^{N}
-	(z_{tij}-s_{ij})^2
+	\{(y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)-s_{ij}\}^2
+	\right].
 	\]
-	гэж олно.
 	
-	\item Агшилтын эрчмийг тооцно.
+	\item Зорилтот матрицаас хазайх
+	квадрат зайг тооцох.
+	
+	\[
+	\widehat{d}_{\mathrm{var}}
+	=
+	\frac{1}{N}
+	\sum_{i=1}^{N}\sum_{j=1}^{N}
+	(s_{ij}-t_{ij})^2.
+	\]
+	
+	\item Агшилтын эрчмийг үнэлэх.
+	
+	$\widehat{d}_{\mathrm{var}}>0$
+	үед
 	\[
 	\widehat{\alpha}_{\mathrm{var}}
 	=
-	\max
-	\left\{
-	0,
-	\min
-	\left(
-	1,
-	\frac{\widehat{\pi}}
-	{n\widehat{\gamma}_{\mathrm{var}}}
-	\right)
+	\max\left\{
+	0,\,
+	\min\left\{
+	1,\,
+	\frac{\widehat{b}_{var}}
+	{\widehat{d}_{\mathrm{var}}}
+	\right\}
 	\right\}.
 	\]
 	
-	\item Агшилтын ковариацын матрицыг байгуулна.
+	\item Агшилтын ковариацын
+	матрицыг байгуулах.
+	
 	\[
-	\widehat{\Sigma}_{\mathrm{var}}
-	=
-	(1-\widehat{\alpha}_{\mathrm{var}})S
-	+
-	\widehat{\alpha}_{\mathrm{var}}T_{\mathrm{var}}.
+	\boxed{
+		\widehat{\Sigma}_{\mathrm{var}}
+		=
+		(1-\widehat{\alpha}_{\mathrm{var}})S
+		+
+		\widehat{\alpha}_{\mathrm{var}}
+		T_{\mathrm{var}}
+	}.
 	\]
 \end{enumerate}
+

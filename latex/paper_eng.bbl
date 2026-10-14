@@ -1,8 +1,83 @@
 \begin{thebibliography}{}
 
-\bibitem[Ledoit and Wolf, 2004]{ledoit2004}
-Ledoit, O. and Wolf, M. (2004).
+\bibitem[Ando and Xiao, 2023]{andoxiao2023}
+Ando, S. and Xiao, M. (2023).
+\newblock High-dimensional covariance matrix estimation: Shrinkage toward a
+  diagonal target.
+\newblock Technical Report 2023/257, International Monetary Fund.
+
+\bibitem[De~Nard et~al., 2021]{denard2021factor}
+De~Nard, G., Ledoit, O., and Wolf, M. (2021).
+\newblock Factor models for portfolio selection in large dimensions: The good,
+  the better and the ugly.
+\newblock {\em Journal of Financial Econometrics}, 19(2):236--257.
+
+\bibitem[DeMiguel et~al., 2009]{demiguel2009}
+DeMiguel, V., Garlappi, L., and Uppal, R. (2009).
+\newblock Optimal versus naive diversification: How inefficient is the 1/n
+  portfolio strategy?
+\newblock {\em The Review of Financial Studies}, 22(5):1915--1953.
+
+\bibitem[Frost and Savarino, 1986]{frostsavarino1986}
+Frost, P.~A. and Savarino, J.~E. (1986).
+\newblock An empirical bayes approach to efficient portfolio selection.
+\newblock {\em Journal of Financial and Quantitative Analysis}, 21(3):293--305.
+
+\bibitem[Ledoit, 1995]{ledoit1995}
+Ledoit, O. (1995).
+\newblock {\em Essays on Risk and Return in the Stock Market}.
+\newblock Ph.d. thesis, Massachusetts Institute of Technology.
+
+\bibitem[Ledoit and Wolf, 2003]{ledoitwolf2003}
+Ledoit, O. and Wolf, M. (2003).
+\newblock Improved estimation of the covariance matrix of stock returns with an
+  application to portfolio selection.
+\newblock {\em Journal of Empirical Finance}, 10(5):603--621.
+
+\bibitem[Ledoit and Wolf, 2004a]{ledoitwolf2004b}
+Ledoit, O. and Wolf, M. (2004a).
 \newblock Honey, i shrunk the sample covariance matrix.
 \newblock {\em The Journal of Portfolio Management}, 30(4):110--119.
+
+\bibitem[Ledoit and Wolf, 2004b]{ledoitwolf2004a}
+Ledoit, O. and Wolf, M. (2004b).
+\newblock A well-conditioned estimator for large-dimensional covariance
+  matrices.
+\newblock {\em Journal of Multivariate Analysis}, 88(2):365--411.
+
+\bibitem[Ledoit and Wolf, 2012]{ledoitwolf2012}
+Ledoit, O. and Wolf, M. (2012).
+\newblock Nonlinear shrinkage estimation of large-dimensional covariance
+  matrices.
+\newblock {\em The Annals of Statistics}, 40(2):1024--1060.
+
+\bibitem[Ledoit and Wolf, 2020]{ledoitwolf2020}
+Ledoit, O. and Wolf, M. (2020).
+\newblock Analytical nonlinear shrinkage of large-dimensional covariance
+  matrices.
+\newblock {\em The Annals of Statistics}, 48(5):3043--3065.
+
+\bibitem[Ledoit and Wolf, 2022]{ledoitwolf2021}
+Ledoit, O. and Wolf, M. (2022).
+\newblock The power of (non-)linear shrinking: A review and guide to covariance
+  matrix estimation.
+\newblock {\em Journal of Financial Econometrics}, 20(1):187--218.
+
+\bibitem[Markowitz, 1952]{markowitz1952}
+Markowitz, H. (1952).
+\newblock Portfolio selection.
+\newblock {\em The Journal of Finance}, 7(1):77--91.
+
+\bibitem[Shi et~al., 2025]{shi2025}
+Shi, F., Shu, L., and He, J. (2025).
+\newblock Improving minimum-variance portfolio through shrinkage of large
+  covariance matrices.
+\newblock {\em Economic Modelling}.
+
+\bibitem[Zivot, 2021]{zivot2021}
+Zivot, E. (2021).
+\newblock {\em Introduction to Computational Finance and Financial Econometrics
+  with R}.
+\newblock Draft textbook, University of Washington.
 
 \end{thebibliography}

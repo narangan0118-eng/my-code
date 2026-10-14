@@ -5,44 +5,47 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
-You've used 1 entry,
+Warning--I didn't find a database entry for "ledoit2004"
+Warning--empty publisher in zivot2021
+You've used 14 entries,
             1935 wiz_defined-function locations,
-            478 strings with 3816 characters,
-and the built_in function-call counts, 421 in all, are:
-= -- 42
-> -- 13
-< -- 1
-+ -- 4
-- -- 4
-* -- 37
-:= -- 75
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 7
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 14
-empty$ -- 31
-format.name$ -- 7
-if$ -- 80
-int.to.chr$ -- 1
+            557 strings with 5699 characters,
+and the built_in function-call counts, 5303 in all, are:
+= -- 536
+> -- 179
+< -- 12
++ -- 63
+- -- 56
+* -- 465
+:= -- 924
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 97
+chr.to.int$ -- 13
+cite$ -- 15
+duplicate$ -- 191
+empty$ -- 383
+format.name$ -- 86
+if$ -- 1019
+int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 1
-newline$ -- 8
-num.names$ -- 3
-pop$ -- 4
+missing$ -- 13
+newline$ -- 73
+num.names$ -- 42
+pop$ -- 69
 preamble$ -- 1
-purify$ -- 7
+purify$ -- 98
 quote$ -- 0
-skip$ -- 12
+skip$ -- 146
 stack$ -- 0
-substring$ -- 37
-swap$ -- 1
-text.length$ -- 0
+substring$ -- 436
+swap$ -- 14
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 6
-warning$ -- 0
-while$ -- 4
+type$ -- 82
+warning$ -- 1
+while$ -- 48
 width$ -- 0
-write$ -- 15
+write$ -- 182
+(There were 2 warnings)

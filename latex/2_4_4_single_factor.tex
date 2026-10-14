@@ -1,0 +1,593 @@
+% --------------------------------------------------
+\subsubsection{Нэг хүчин зүйлийн зорилтот матриц}
+% --------------------------------------------------
+
+Нэг хүчин зүйлийн зорилтот матриц нь хөрөнгүүдийн өгөөжийн
+хоорондын хамаарлыг зах зээлийн нийтлэг хүчин зүйлээр
+тайлбарлах нэг хүчин зүйлийн загварт (Single-Index Model)
+суурилдаг. Уг загварт хөрөнгийн өгөөжийг зах зээлийн
+нийтлэг хүчин зүйлтэй холбоотой хэсэг болон тухайн
+хөрөнгийн өөрийн онцлогоос хамаарах үлдэгдэл хэсэгт
+хуваан авч үздэг \citep{ledoitwolf2003}.
+
+Энэхүү судалгаанд зах зээлийн нийтлэг хүчин зүйлийг
+S\&P 500 индексийн өгөөжөөр төлөөлүүлнэ.
+
+$i$-р хөрөнгийн $t$-р хугацаан дахь өгөөжийг
+\[
+y_{ti}
+=
+a_i+\beta_i R_{m,t}+\varepsilon_{ti}
+\]
+гэж загварчилна. Энд $R_{m,t}$ нь $t$-р хугацаан дахь
+зах зээлийн өгөөж, $a_i$ нь регрессийн тогтмол
+коэффициент, $\beta_i$ нь $i$-р хөрөнгийн өгөөжийн
+зах зээлийн өөрчлөлтөд мэдрэг байдлыг илэрхийлэх
+коэффициент, $\varepsilon_{ti}$ нь тухайн хөрөнгийн
+үлдэгдэл өгөөж юм.
+
+Нэг хүчин зүйлийн загварын регрессийн коэффициентийг
+\[
+\widehat{\beta}_i
+=
+\frac{
+	\sum_{t=1}^{n}
+	(y_{ti}-\overline{Y}_i)
+	(R_{m,t}-\overline{R}_m)
+}{
+	\sum_{t=1}^{n}
+	(R_{m,t}-\overline{R}_m)^2
+}
+\]
+гэж үнэлнэ. Энд
+\[
+\overline{R}_m
+=
+\frac{1}{n}
+\sum_{t=1}^{n}R_{m,t}
+\]
+нь зах зээлийн өгөөжийн түүврийн дундаж юм.
+
+Регрессийн тогтмол коэффициентийг
+\[
+\widehat{a}_i
+=
+\overline{Y}_i
+-
+\widehat{\beta}_i\overline{R}_m
+\]
+гэж тооцно.
+
+Тэгвэл $i$-р хөрөнгийн $t$-р хугацаан дахь
+регрессийн үлдэгдэл
+\[
+\widehat{\varepsilon}_{ti}
+=
+y_{ti}
+-
+\widehat{a}_i
+-
+\widehat{\beta}_iR_{m,t}
+\]
+болно. Үүнийг
+\[
+\widehat{\varepsilon}_{ti}
+=
+(y_{ti}-\overline{Y}_i)
+-
+\widehat{\beta}_i
+(R_{m,t}-\overline{R}_m)
+\]
+гэж илэрхийлж болно.
+
+Нэг хүчин зүйлийн загварын үндсэн таамаглалаар
+үлдэгдэл өгөөжүүд нь зах зээлийн хүчин зүйлтэй
+хамааралгүй, мөн өөр өөр хөрөнгүүдийн үлдэгдэл
+өгөөжүүд хоорондоо хамааралгүй байна. Өөрөөр хэлбэл,
+\[
+\operatorname{Cov}(R_m,\varepsilon_i)=0,
+\qquad i=1,2,\ldots,N,
+\]
+ба
+\[
+\operatorname{Cov}(\varepsilon_i,\varepsilon_j)=0,
+\qquad i\neq j.
+\]
+
+Эдгээр таамаглалын дор $i$ болон $j$-р хөрөнгийн
+өгөөжийн ковариацыг
+\[
+\operatorname{Cov}(Y_i,Y_j)
+=
+\operatorname{Cov}
+(a_i+\beta_iR_m+\varepsilon_i,
+a_j+\beta_jR_m+\varepsilon_j)
+\]
+гэж илэрхийлнэ.
+
+Ковариацын чанарыг ашиглавал
+\[
+\operatorname{Cov}(Y_i,Y_j)
+=
+\beta_i\beta_j\operatorname{Var}(R_m),
+\qquad i\neq j,
+\]
+болно.
+
+Харин $i$-р хөрөнгийн өгөөжийн вариац
+\[
+\operatorname{Var}(Y_i)
+=
+\beta_i^2\operatorname{Var}(R_m)
++
+\operatorname{Var}(\varepsilon_i)
+\]
+болно.
+
+Зах зээлийн өгөөжийн түүврийн вариацыг
+\[
+\widehat{\sigma}_m^2
+=
+\frac{1}{n}
+\sum_{t=1}^{n}
+(R_{m,t}-\overline{R}_m)^2
+\]
+гэж тооцно.
+
+Мөн $i$-р хөрөнгийн регрессийн үлдэгдлийн
+вариацыг
+\[
+\widehat{\sigma}_{\varepsilon,i}^{2}
+=
+\frac{1}{n}
+\sum_{t=1}^{n}
+\widehat{\varepsilon}_{ti}^{\,2}
+\]
+гэж тооцно.
+
+Иймээс нэг хүчин зүйлийн зорилтот матриц
+$T_{\mathrm{SF}}=(t_{ij})$-ын элементүүдийг
+\[
+t_{ij}
+=
+\begin{cases}
+	\widehat{\beta}_i^2\widehat{\sigma}_m^2
+	+
+	\widehat{\sigma}_{\varepsilon,i}^{2},
+	& i=j,\\[0.4em]
+	\widehat{\beta}_i\widehat{\beta}_j
+	\widehat{\sigma}_m^2,
+	& i\neq j
+\end{cases}
+\]
+гэж тодорхойлно \citep{ledoitwolf2003}.
+
+Нэг хүчин зүйлийн зорилтот матрицыг матриц
+хэлбэрээр
+\[
+T_{\mathrm{SF}}
+=
+\widehat{\boldsymbol{\beta}}
+\widehat{\boldsymbol{\beta}}^{\top}
+\widehat{\sigma}_m^2
++
+\widehat D_{\varepsilon}
+\]
+гэж илэрхийлж болно.
+
+Энд
+\[
+\widehat{\boldsymbol{\beta}}
+=
+(\widehat{\beta}_1,
+\widehat{\beta}_2,
+\ldots,
+\widehat{\beta}_N)^{\top}
+\]
+нь регрессийн коэффициентүүдийн вектор, харин
+\[
+\widehat D_{\varepsilon}
+=
+\operatorname{diag}
+\left(
+\widehat{\sigma}_{\varepsilon,1}^{2},
+\ldots,
+\widehat{\sigma}_{\varepsilon,N}^{2}
+\right)
+\]
+нь үлдэгдлийн вариацуудаас бүрдэх диагональ
+матриц юм.
+
+Нэг хүчин зүйлийн зорилтот матрицад суурилсан
+шугаман агшилтын үнэлэгчийг
+\[
+\widehat{\Sigma}_{\mathrm{SF}}
+=
+(1-\widehat{\alpha}_{\mathrm{SF}})S
++
+\widehat{\alpha}_{\mathrm{SF}}T_{\mathrm{SF}},
+\qquad
+0\leq\widehat{\alpha}_{\mathrm{SF}}\leq1,
+\]
+гэж тодорхойлно.
+
+Энд $\widehat{\alpha}_{\mathrm{SF}}$ нь нэг хүчин
+зүйлийн зорилтот матрицад харгалзах агшилтын
+эрчим юм.
+
+\paragraph{Агшилтын эрчмийн үнэлгээ.}
+
+\citet{ledoitwolf2003} нь нэг хүчин зүйлийн
+зорилтот матрицад суурилсан агшилтын эрчмийг
+үнэлэхдээ түүврийн ковариацын матрицын
+элементүүдийн түүвэрлэлтийн хэлбэлзэл,
+түүврийн ковариацын матриц болон зорилтот
+матрицын үнэлгээний алдаануудын хам хэлбэлзэл,
+мөн эдгээр матрицуудын хоорондын зайг
+харгалзан үзсэн.
+
+Эхлээд түүврийн ковариацын матриц $S$ болон
+нэг хүчин зүйлийн зорилтот матриц
+$T_{\mathrm{SF}}$ хоорондын нормчилсон
+квадрат Фробениусын зайг
+\[
+\widehat d_{\mathrm{SF}}
+=
+\left\|S-T_{\mathrm{SF}}\right\|^2=
+\frac{1}{N}
+\sum_{i=1}^{N}
+\sum_{j=1}^{N}
+(s_{ij}-t_{ij})^2
+\]
+гэж тодорхойлно.
+
+Дараа нь түүврийн ковариацын матрицын
+элементүүдийн түүвэрлэлтийн хэлбэлзлийг
+нэгтгэн хэмжих хэмжигдэхүүнийг
+\[
+\widehat b_{\mathrm{SF}}
+=
+\frac{1}{nN}
+\sum_{i=1}^{N}
+\sum_{j=1}^{N}
+\left[
+\frac{1}{n}
+\sum_{t=1}^{n}
+\left\{
+(y_{ti}-\overline{Y}_i)
+(y_{tj}-\overline{Y}_j)
+-s_{ij}
+\right\}^{2}
+\right]
+\]
+гэж тооцно.
+
+Нэг хүчин зүйлийн зорилтот матриц нь
+түүврийн өгөгдлөөс үнэлэгддэг учраас
+$S$ болон $T_{\mathrm{SF}}$ матрицуудын
+үнэлгээний алдаанууд хоорондоо
+хамааралтай байж болно.
+
+Иймээс агшилтын эрчмийг тооцоход
+эдгээр үнэлгээний алдаануудын
+хам хэлбэлзлийг харгалзах шаардлагатай.
+
+Энэ хам хэлбэлзлийн нөлөөг
+$\widehat c_{\mathrm{SF}}$ хэмжигдэхүүнээр
+илэрхийлнэ.
+
+Нэг хүчин зүйлийн зорилтот матрицын диагональ
+элементүүд нь түүврийн ковариацын матрицын
+диагональ элементүүдтэй тэнцүү буюу
+$t_{ii}=s_{ii}$ байна.
+
+\citet{ledoitwolf2003}-ийн Lemma 2-т
+үндэслэн үнэлгээний алдаануудын
+хам хэлбэлзлийг дараах байдлаар тооцно.
+
+$i=j$ үед
+\[
+\widehat q_{ii}
+=
+\frac{1}{n}
+\sum_{t=1}^{n}
+\left\{
+(y_{ti}-\overline{Y}_i)^2-s_{ii}
+\right\}^{2}.
+\]
+
+Харин $i\neq j$ үед
+\[
+	\widehat q_{ij}
+	=
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	\Big[
+	\widehat{\beta}_j
+	(y_{ti}-\overline{Y}_i)
+	(R_{m,t}-\overline{R}_m)
+	+
+	\widehat{\beta}_i
+	(y_{tj}-\overline{Y}_j)
+	(R_{m,t}-\overline{R}_m)
+	-
+	\widehat{\beta}_i\widehat{\beta}_j
+	(R_{m,t}-\overline{R}_m)^2
+	-t_{ij}
+	\Big]\times
+	\]
+	\[\times
+	\Big[
+	(y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)-s_{ij}
+	\Big].
+\]
+
+Иймээс хам хэлбэлзлийн нийлбэрийн
+нормчилсон үнэлгээг
+\[
+\widehat c_{\mathrm{SF}}
+=
+\frac{1}{nN}
+\sum_{i=1}^{N}
+\sum_{j=1}^{N}
+\widehat q_{ij}
+\]
+гэж тодорхойлно.
+Ингэснээр нэг хүчин зүйлийн зорилтот
+матрицад харгалзах агшилтын эрчмийг
+\[
+\widehat{\alpha}_{\mathrm{SF}}
+=
+\max
+\left\{
+0,
+\min
+\left\{
+1,
+\frac{
+	\widehat b_{\mathrm{SF}}
+	-
+	\widehat c_{\mathrm{SF}}
+}{
+	\widehat d_{\mathrm{SF}}
+}
+\right\}
+\right\}
+\]
+гэж үнэлнэ.
+
+Энэ нь \citet{ledoitwolf2003}-ийн
+асимптотик оновчтой агшилтын эрчмийн
+үнэлгээг нормчилсон квадрат
+Фробениусын зайд нийцүүлэн
+илэрхийлсэн хэлбэр юм.
+
+Энд $\widehat d_{\mathrm{SF}}>0$
+байхыг шаардана.
+
+Эцэст нь нэг хүчин зүйлийн зорилтот
+матрицад суурилсан агшилтын ковариацын
+матрицыг
+\[
+\widehat{\Sigma}_{\mathrm{SF}}
+=
+(1-\widehat{\alpha}_{\mathrm{SF}})S
++
+\widehat{\alpha}_{\mathrm{SF}}T_{\mathrm{SF}}
+\]
+гэж олно.
+
+\paragraph{Тооцоолох алгоритм.}
+
+Нэг хүчин зүйлийн зорилтот матрицад
+суурилсан агшилтын ковариацын
+матрицыг дараах үе шаттайгаар тооцно.
+
+\begin{enumerate}
+	
+	\item Зах зээлийн дундаж өгөөжийг тооцно.
+	\[
+	\overline{R}_m
+	=
+	\frac{1}{n}
+	\sum_{t=1}^{n}R_{m,t}.
+	\]
+	
+
+	
+	\item Зах зээлийн өгөөжийн түүврийн
+	вариацыг тооцно.
+	\[
+	\widehat{\sigma}_m^2
+	=
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	(R_{m,t}-\overline{R}_m)^2.
+	\]
+	
+	\item Хөрөнгө тус бүрийн регрессийн
+	коэффициентийг тооцно.
+	\[
+	\widehat{\beta}_i
+	=
+	\frac{
+		\sum_{t=1}^{n}
+		(y_{ti}-\overline{Y}_i)
+		(R_{m,t}-\overline{R}_m)
+	}{
+		\sum_{t=1}^{n}
+		(R_{m,t}-\overline{R}_m)^2
+	}.
+	\]
+	
+	\item Регрессийн тогтмол коэффициент
+	болон үлдэгдлийг тооцно.
+	\[
+	\widehat a_i
+	=
+	\overline{Y}_i
+	-
+	\widehat{\beta}_i\overline{R}_m,
+	\]
+	\[
+	\widehat{\varepsilon}_{ti}
+	=
+	y_{ti}
+	-
+	\widehat a_i
+	-
+	\widehat{\beta}_iR_{m,t}.
+	\]
+	
+	\item Хөрөнгө тус бүрийн үлдэгдлийн
+	вариацыг тооцно.
+	\[
+	\widehat{\sigma}_{\varepsilon,i}^{2}
+	=
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	\widehat{\varepsilon}_{ti}^{\,2}.
+	\]
+	
+	\item Нэг хүчин зүйлийн зорилтот
+	матрицыг байгуулна.
+	\[
+	t_{ij}
+	=
+	\begin{cases}
+		\widehat{\beta}_i^2
+		\widehat{\sigma}_m^2
+		+
+		\widehat{\sigma}_{\varepsilon,i}^{2},
+		& i=j,\\[0.4em]
+		\widehat{\beta}_i\widehat{\beta}_j
+		\widehat{\sigma}_m^2,
+		& i\neq j.
+	\end{cases}
+	\]
+	
+	Эдгээр элементүүдээр
+	$T_{\mathrm{SF}}=(t_{ij})$
+	матрицыг байгуулна.
+	
+	\item Түүврийн ковариацын матриц болон
+	зорилтот матрицын хоорондын нормчилсон
+	квадрат Фробениусын зайг тооцно.
+	\[
+	\widehat d_{\mathrm{SF}}
+	=
+	\frac{1}{N}
+	\sum_{i=1}^{N}
+	\sum_{j=1}^{N}
+	(s_{ij}-t_{ij})^2.
+	\]
+	
+	\item Түүврийн ковариацын матрицын
+	элементүүдийн түүвэрлэлтийн
+	хэлбэлзлийг тооцно.
+	\[
+	\widehat b_{\mathrm{SF}}
+	=
+	\frac{1}{nN}
+	\sum_{i=1}^{N}
+	\sum_{j=1}^{N}
+	\left[
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	\left\{
+	(y_{ti}-\overline{Y}_i)
+	(y_{tj}-\overline{Y}_j)
+	-s_{ij}
+	\right\}^{2}
+	\right].
+	\]
+	
+	\item Түүврийн ковариацын матриц
+	болон нэг хүчин зүйлийн зорилтот
+	матрицын үнэлгээний алдаануудын
+	хам хэлбэлзлийг тооцно.
+	
+	$i=j$ үед
+	\[
+	\widehat q_{ii}
+	=
+	\frac{1}{n}
+	\sum_{t=1}^{n}
+	\left\{
+	(y_{ti}-\overline{Y}_i)^2-s_{ii}
+	\right\}^{2}.
+	\]
+	
+	$i\neq j$ үед
+\[
+\widehat q_{ij}
+=
+\frac{1}{n}
+\sum_{t=1}^{n}
+\Big[
+\widehat{\beta}_j
+(y_{ti}-\overline{Y}_i)
+(R_{m,t}-\overline{R}_m)
++
+\widehat{\beta}_i
+(y_{tj}-\overline{Y}_j)
+(R_{m,t}-\overline{R}_m)
+-
+\widehat{\beta}_i\widehat{\beta}_j
+(R_{m,t}-\overline{R}_m)^2
+-t_{ij}
+\Big]\times
+\]
+\[\times
+\Big[
+(y_{ti}-\overline{Y}_i)
+(y_{tj}-\overline{Y}_j)-s_{ij}
+\Big].
+\]
+	
+	Дараа нь
+	\[
+	\widehat c_{\mathrm{SF}}
+	=
+	\frac{1}{nN}
+	\sum_{i=1}^{N}
+	\sum_{j=1}^{N}
+	\widehat q_{ij}
+	\]
+	гэж тооцно.
+	
+	\item Агшилтын эрчмийг тооцно.
+	
+	$\widehat d_{\mathrm{SF}}>0$ үед
+	\[
+	\widehat{\alpha}_{\mathrm{SF}}
+	=
+	\max
+	\left\{
+	0,
+	\min
+	\left\{
+	1,
+	\frac{
+		\widehat b_{\mathrm{SF}}
+		-
+		\widehat c_{\mathrm{SF}}
+	}{
+		\widehat d_{\mathrm{SF}}
+	}
+	\right\}
+	\right\}.
+	\]
+	
+	\item Агшилтын ковариацын
+	матрицыг байгуулна.
+	\[
+	\widehat{\Sigma}_{\mathrm{SF}}
+	=
+	(1-\widehat{\alpha}_{\mathrm{SF}})S
+	+
+	\widehat{\alpha}_{\mathrm{SF}}T_{\mathrm{SF}}.
+	\]
+	
+\end{enumerate}

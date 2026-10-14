@@ -13,6 +13,7 @@ tickers = {
     "Tesla": "TSLA",
     "Intel": "INTC",
     "Tencent": "0700.HK"
+    "SP500": "^GSPC"
 }
 
 # Хугацаа
@@ -30,7 +31,7 @@ for company, ticker in tickers.items():
         start=start_date,
         end=end_date,
         interval="1d",
-        auto_adjust=False,
+        auto_adjust=True,
         multi_level_index=False,
         progress=False
     )
