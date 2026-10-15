@@ -1,877 +1,353 @@
 import pandas as pd
-
 import numpy as np
-
-import yfinance as yf
-
-from sklearn.covariance import LedoitWolf
-
-from pypfopt.risk_models import CovarianceShrinkage
-
-from scipy.stats import norm
-
-from scipy.optimize import minimize
-
-
 
 writer = pd.ExcelWriter("Ledoit_Wolf_Results_weekly.xlsx", engine="openpyxl")
 
-
-
-close = pd.read_excel(
-
-    "weekly.xlsx",
-
-    sheet_name="close",
-
-    thousands=","
-
-)
-
+close = pd.read_excel("weekly.xlsx", sheet_name="close", thousands=",")
 close = close.set_index("Date")
-
 close = close.apply(pd.to_numeric, errors="coerce")
-
 close.round(5).to_excel(writer, sheet_name="close")
 
-
-
 Y = close.drop(columns=["SP500"]).pct_change().dropna()
-
 Y.round(5).to_excel(writer, sheet_name="Y")
 
-
-
 n = Y.shape[0]     
-
 N = Y.shape[1]      
-
 print("Ажиглалтын тоо n =", n)
-
 print("Үнэт цаасны тоо N =", N)
 
-
-
 descriptive_stats = pd.DataFrame({
-
     "Дундаж": Y.mean(),
-
     "Стандарт хазайлт": Y.std(ddof=1),
-
     "Минимум": Y.min(),
-
     "Максимум": Y.max(),
-
     "Асимметр": Y.skew(),
-
     "Эксцесс": Y.kurt()
-
 })
-
-
-
 descriptive_stats.index.name = "Хөрөнгө"
+descriptive_stats.round(4).to_excel(writer, sheet_name="Descriptive_Statistics")
 
-
-
-print("\n7 хоногийн өгөөжийн тодорхойлох статистик:")
-
-print(descriptive_stats.round(4))
-
-
-
-# Excel файлд хадгалах
-
-descriptive_stats.round(4).to_excel(
-
-    writer,
-
-    sheet_name="Descriptive_Statistics"
-
-)
-
-
-
-
-
+#Түүврийн ковариацын матриц (Sample covariance matrix) ---
 S = Y.cov(ddof=0)
-
 S_matrix = S.to_numpy()
-
-print("Sample Covariance Matrix S:")
-
-print(S_matrix.round(5))
-
 S.round(5).to_excel(writer, sheet_name="S")
 
+#Тогтмол вариацын зорилтот матриц (Constant Variance Target) ---
+mu_hat = np.trace(S.to_numpy()) / N
+print("mu_hat = ", round(mu_hat,5))
 
-
-mu_t = np.trace(S_matrix)
-
-print("trace(S) = ", mu_t.round(5))
-
-mu = np.trace(S_matrix) / N
-
-print("Mu = ", round(mu,5))
-
-T_var = mu * pd.DataFrame(
-
-    np.eye(N),
-
-    index=S.index,
-
-    columns=S.columns
-
+T_var = pd.DataFrame(
+    mu_hat * np.eye(N),
+    index=Y.columns,
+    columns=Y.columns
 )
-
-print("Constant Variance Target Matrix T_var:")
-
-print(T_var.round(5))
-
 T_var.round(5).to_excel(writer, sheet_name="T_var")
 
+Y_tilde = Y - Y.mean()
+X = Y_tilde.to_numpy()
+S_matrix = S.to_numpy()
+b_sum1 = 0.0
+for t in range(n):
+    Z_t = np.outer(X[t], X[t])
+    b_sum1 += np.sum((Z_t - S_matrix)**2)
+b_hat = b_sum1 / (n**2 * N)
+d_hat_var = (
+    np.sum((S_matrix - T_var.to_numpy())**2) / N
+)
+if d_hat_var > 0:
+    alpha_hat_var = np.clip(b_hat / d_hat_var, 0, 1)
+else:
+    alpha_hat_var = 1.0
+print(alpha_hat_var.round(5))
 
-
-#gamma = np.sum((S.values - T_var.values)**2)
-
-#D = S.values - T_var
-
-#gamma = np.sum(D**2)
-
-
-
-gamma_var = np.linalg.norm(S_matrix - T_var.values, 'fro')**2
-
-print("Gamma_var =", gamma_var.round(5))
-
-
-
-Y_np = Y.to_numpy()
-
-Y_tilde = Y_np - np.mean(Y_np, axis=0)
-
-
-
-pi = 0.0
-
-for i in range(N):
-
-    for j in range(N):
-
-        dev = Y_tilde[:, i] * Y_tilde[:, j] - S.iloc[i, j]
-
-        pi_ij = np.sum(dev**2) / n
-
-        pi +=pi_ij
-
-
-
-print("pi = ",pi.round(5))
-
-
-
-alpha_var = (pi / n) / gamma_var
-
-print("alpha_var =", round(alpha_var, 5))
-
-#lw = LedoitWolf().fit(Y_np)
-
-#print("Sklearn Alpha =", round(lw.shrinkage_, 5))
-
-
-
-Sigma_var = alpha_var * T_var + (1 - alpha_var) * S_matrix
-
-print("Shrunk Covariance Matrix (Constant Variance Target) Sigma_var:")
-
-print(Sigma_var.round(5))
-
+Sigma_var = alpha_hat_var * T_var + (1 - alpha_hat_var) * S_matrix
 Sigma_var.round(5).to_excel(writer, sheet_name="Sigma_var")
 
-
-
+#Диагональ зорилтот матриц (Diagonal Target) ---
 T_diag = pd.DataFrame(
-
     np.diag(np.diag(S_matrix)),
-
     index=S.index,
-
     columns=S.columns
-
 )
-
-print("Diagonal Target Matrix T_diag:")
-
-print(T_diag.round(5))
-
 T_diag.round(5).to_excel(writer, sheet_name="T_diag")
 
-
-
-gamma_diag = np.linalg.norm(S_matrix - T_diag.values, 'fro')**2
-
-print("gamma_diag =", round(gamma_diag, 5))
-
-
-
-rho = 0.0
-
-for i in range(N):
-
-    dev_diag = Y_tilde[:, i]**2 - S_matrix[i, i]
-
-    rho_i = np.sum(dev_diag**2) / n
-
-    rho += rho_i
-
-
-
-print("rho =", round(rho, 5))
-
-
-
-alpha_d = (pi - rho) / (n * gamma_diag)
-
-alpha_diag = max(0.0, min(1.0, alpha_d))
-
-print("alpha_diag =", round(alpha_diag, 5))
-
-
-
-Sigma_diag = alpha_diag * T_diag + (1 - alpha_diag) * S_matrix
-
-print("Shrunk Covariance Matrix (Diagonal Target) Sigma_diag:")
-
-print(Sigma_diag.round(5))
-
+b_sum2 = 0.0
+for t in range(n):
+    Z_t = np.outer(X[t], X[t])
+    difference = Z_t - S_matrix
+    # Диагональ элементүүдийг хасах
+    np.fill_diagonal(difference, 0)
+    b_sum2 += np.sum(difference**2)
+b_hat_diag = b_sum2 / (n**2 * N)
+print("b_hat_diag =", b_hat_diag.round(5))
+d_hat_diag = (
+    np.sum((S_matrix - T_diag.to_numpy())**2) / N
+)
+print("d_hat_diag =", d_hat_diag.round(5))
+if d_hat_diag > 0:
+    alpha_hat_diag = np.clip(
+        b_hat_diag / d_hat_diag, 0, 1
+    )
+else:
+    alpha_hat_diag = 1.0
+print("alpha_hat_diag =", alpha_hat_diag.round(5))
+Sigma_diag = ((1 - alpha_hat_diag) * S + alpha_hat_diag * T_diag)
 Sigma_diag.round(5).to_excel(writer, sheet_name="Sigma_diag")
 
+#Тогтмол корреляцын зорилтот матриц (Constant Correlation Target) ---
+std_dev = np.sqrt(np.diag(S_matrix))
+outer_std = np.outer(std_dev, std_dev)
+R_matrix = S_matrix / outer_std
+R = pd.DataFrame(R_matrix, index=S.index, columns=S.columns)
+R.round(5).to_excel(writer, sheet_name="R")
 
+sum_r = np.sum(R_matrix) - np.sum(np.diag(R_matrix))  # Диагональ бус элементүүдийн нийлбэр (i != j)
+r_bar = sum_r / (N * (N - 1))
+print("r_bar (Корреляцын дундаж) =", round(r_bar, 5))
 
+T_corr_matrix = np.zeros((N, N))
+for i in range(N):
+    for j in range(N):
+        if i == j:
+            T_corr_matrix[i, j] = S_matrix[i, i]
+        else:
+            T_corr_matrix[i, j] = r_bar * std_dev[i] * std_dev[j]
 
-R = Y.corr()
-
-print(R.round(5))
-
-R.round(5).to_excel(writer, sheet_name="Corr")
-
-
-
-r_bar = (R.values.sum() - N) / (N * (N - 1))
-
-print(r_bar.round(5))
-
-
-
-variances = np.diag(S_matrix)
-
-std_devs = np.sqrt(variances)
-
-table = pd.DataFrame(
-
-    [variances, std_devs],
-
-    index=["Дисперс", "Стандарт хазайлт"],
-
-    columns=Y.columns
-
-)
-
-table.round(5).to_excel(writer, sheet_name="Var_std_dev")
-
-
-
-T_corr = r_bar * np.outer(std_devs, std_devs)
-
-np.fill_diagonal(T_corr, variances)
-
-T_corr = pd.DataFrame(
-
-    T_corr,
-
-    index=S.index,
-
-    columns=S.columns
-
-)
-
-print("Constant Correlation Target T_corr:")
-
-print(T_corr.round(5))
-
+T_corr = pd.DataFrame(T_corr_matrix, index=S.index, columns=S.columns)
 T_corr.round(5).to_excel(writer, sheet_name="T_corr")
 
+b_sum_corr = 0.0
+for t in range(n):
+    Z_t = np.outer(X[t], X[t])
+    b_sum_corr += np.sum((Z_t - S_matrix) ** 2)
+b_hat_corr = b_sum_corr / (n**2 * N)
+print("b_hat_corr =", round(b_hat_corr, 5))
 
+diff_corr = S_matrix - T_corr_matrix
+d_hat_corr = np.sum(diff_corr**2) / N
+print("d_hat_corr =", round(d_hat_corr, 5))
 
-gamma_corr = np.linalg.norm(S_matrix - T_corr, 'fro')**2
-
-print("gamma_corr =", round(gamma_corr, 5))
-
-
-
-pi_diag = 0.0
-
+var_y2 = np.zeros(N)
 for i in range(N):
+    var_y2[i] = np.mean((X[:, i] ** 2 - S_matrix[i, i]) ** 2)
+sum_var_y2 = np.sum(var_y2)
 
-    dev_ii = Y_tilde[:, i]**2 - S_matrix[i, i]
-
-    pi_diag += np.sum(dev_ii**2) / n
-
-print("pi_diag = ", pi_diag.round(5))
-
-
-
-pi_off = 0.0
-
+theta_sum = 0.0
 for i in range(N):
-
     for j in range(N):
-
         if i != j:
+            # theta_ii_ij
+            theta_ii_ij = np.mean(
+                (X[:, i] ** 2 - S_matrix[i, i])
+                * (X[:, i] * X[:, j] - S_matrix[i, j])
+            )
+            # theta_jj_ij
+            theta_jj_ij = np.mean(
+                (X[:, j] ** 2 - S_matrix[j, j])
+                * (X[:, i] * X[:, j] - S_matrix[i, j])
+            )
 
-            dev_ii = Y_tilde[:, i]**2 - S_matrix[i, i]
+            term = (np.sqrt(S_matrix[j, j] / S_matrix[i, i]) * theta_ii_ij) + (
+                np.sqrt(S_matrix[i, i] / S_matrix[j, j]) * theta_jj_ij
+            )
+            theta_sum += term
 
-            dev_jj = Y_tilde[:, j]**2 - S_matrix[j, j]
+c_hat_corr = (1.0 / (n * N)) * (sum_var_y2 + (r_bar / 2.0) * theta_sum)
+print("c_hat_corr =", round(c_hat_corr, 5))
 
-            cov_s_ii_jj = np.sum(dev_ii * dev_jj) / n
+if d_hat_corr > 0:
+    alpha_hat_corr = np.clip((b_hat_corr - c_hat_corr) / d_hat_corr, 0, 1)
+else:
+    alpha_hat_corr = 1.0
+print("alpha_hat_corr =", round(alpha_hat_corr, 5))
 
-
-
-            term = cov_s_ii_jj * r_bar * (std_devs[j] / std_devs[i])
-
-            pi_off += term
-
-print("pi_off = ", pi_off.__round__(5))
-
-pi_corr = pi_diag + pi_off
-
-print("Pi_corr =", round(pi_corr, 5))
-
-
-
-alpha_c = (pi_corr / n) / gamma_corr
-
-alpha_corr = max(0.0, min(1.0, alpha_c))
-
-print("alpha_corr =", round(alpha_corr, 5))
-
-
-
-Sigma_corr = alpha_corr * T_corr + (1 - alpha_corr) * S_matrix
-
-print("Shrunk Covariance Matrix (Constant Correlation Target) Sigma_corr:")
-
-print(Sigma_corr.round(5))
-
+Sigma_corr = (1 - alpha_hat_corr) * S + alpha_hat_corr * T_corr
 Sigma_corr.round(5).to_excel(writer, sheet_name="Sigma_corr")
 
+#Нэг хүчин зүйлийн зорилтот матриц (Single-Index Target Matrix & Shrinkage) ---
+R_m = close["SP500"].pct_change().loc[Y.index].to_numpy()
+R_m_bar = np.mean(R_m)
+sigma2_m = np.mean((R_m - R_m_bar) ** 2)
 
+Y_bar = np.mean(X, axis=0)
+R_m_tilde = R_m - R_m_bar
+dem_beta = np.sum(R_m_tilde ** 2)
 
+beta_hat = np.sum((X - Y_bar) * R_m_tilde[:, np.newaxis], axis=0) / dem_beta
 
+epsilon = (X - Y_bar) - np.outer(R_m_tilde, beta_hat)
+sigma2_eps = np.mean(epsilon ** 2, axis=0)
 
-close.index = pd.to_datetime(close.index)
-
-sp500 = close["SP500"].copy()
-print(sp500)
-sp500.round(5).to_excel(writer, sheet_name="sp500")
-
-sp500_return = sp500.pct_change().dropna()
-print(sp500_return.round(5))
-sp500_return.round(5).to_excel(writer, sheet_name="sp500_return")
-
-
-Y.index = pd.to_datetime(Y.index).to_period("W-FRI")
-sp500_return.index = pd.to_datetime(sp500_return.index).to_period("W-FRI")
-
-
-
-combined_Y = Y.join(sp500_return.rename("Market"), how="inner").dropna()
-
-print(combined_Y.round(5))
-
-combined_Y.round(5).to_excel(writer, sheet_name="combined_Y")
-
-
-
-Y_clean = combined_Y.drop(columns=["Market"]) #Y-тэй ижил гэсэн үг
-
-R_m = combined_Y["Market"]
-
-print(R_m)
-
-R_m.round(5).to_excel(writer, sheet_name="R_m")
-
-
-
-Y_np = Y_clean.to_numpy()
-
-R_m_np = R_m.to_numpy()
-
-
-
-var_m = np.var(R_m_np, ddof=0)
-
-print("Var(R_m) = ",var_m.round(5))
-
-
-
-cov_m = np.cov(Y_np.T, R_m_np, ddof=0)[:-1, -1]  # Cov(Y_i, R_m)
-
-print("Cov(Y_i, R_m) = ",cov_m.round(5))
-
-cov_m_df = pd.DataFrame(
-
-    cov_m,
-
-    index=Y_clean.columns,
-
-    columns=["Cov(Y_i, R_m)"]
-
-)
-
-cov_m_df.round(5).to_excel(writer, sheet_name="Cov(Y_i,R_m)")
-
-
-
-betas = cov_m / var_m
-
-print("betas = ",betas.round(5))
-
-betas_df = pd.DataFrame(
-
-    betas,
-
-    index=Y_clean.columns,
-
-    columns=["betas"]
-
-)
-
-betas_df.round(5).to_excel(writer, sheet_name="betas")
-
-
-
-Y_demeaned = Y_np - np.mean(Y_np, axis=0)
-
-R_m_demeaned = R_m_np - np.mean(R_m_np)
-
-residuals = Y_demeaned - np.outer(R_m_demeaned, betas)
-
-print(residuals)
-
-var_e = np.var(residuals, axis=0, ddof=0)  # Residual variances (N x 1)
-
-print("Var(epsilon_i) = ",var_e.round(5))
-
-var_e_df = pd.DataFrame(
-
-    var_e,
-
-    index=Y_clean.columns,
-
-    columns=["Var(epsilon_i)"]
-
-)
-
-var_e_df.round(5).to_excel(writer, sheet_name="Var(epsilon_i)")
-
-
-
-T_SF_matrix = var_m * np.outer(betas, betas)
-
-np.fill_diagonal(T_SF_matrix, (betas**2) * var_m + var_e)
-
-
-
+T_SF_matrix = np.outer(beta_hat, beta_hat) * sigma2_m + np.diag(sigma2_eps)
 T_SF = pd.DataFrame(T_SF_matrix, index=S.index, columns=S.columns)
-
-print("Нэг хүчин зүйлийн зорилтот матриц T_SF:")
-
-print(T_SF.round(5))
-
 T_SF.round(5).to_excel(writer, sheet_name="T_SF")
 
+d_hat_SF = np.sum((S_matrix - T_SF_matrix) ** 2) / N
+print("d_hat_SF =", round(d_hat_SF, 5))
 
+Z_centered = X - Y_bar
+b_sum_SF = 0.0
+for t in range(n):
+    Z_t = np.outer(Z_centered[t], Z_centered[t])
+    b_sum_SF += np.sum((Z_t - S_matrix) ** 2)
+b_hat_SF = b_sum_SF / (n**2 * N)
+print("b_hat_SF =", round(b_hat_SF, 5))
 
-gamma_SF = np.linalg.norm(S_matrix - T_SF, 'fro')**2
-
-print("gamma_SF =", round(gamma_SF, 5))
-
-
-
-pi_factor = 0.0
-
+q_matrix = np.zeros((N, N))
 for i in range(N):
-
     for j in range(N):
+        term2 = Z_centered[:, i] * Z_centered[:, j] - S_matrix[i, j]
+        if i == j:
+            term1 = Z_centered[:, i] ** 2 - S_matrix[i, i]
+        else:
+            term1 = (
+                beta_hat[j] * Z_centered[:, i] * R_m_tilde
+                + beta_hat[i] * Z_centered[:, j] * R_m_tilde
+                - beta_hat[i] * beta_hat[j] * (R_m_tilde ** 2)
+                - T_SF_matrix[i, j]
+            )
+        q_matrix[i, j] = np.sum(term1 * term2) / n
 
-        dev = Y_demeaned[:, i] * Y_demeaned[:, j] - S_matrix[i, j]
+c_hat_SF = np.sum(q_matrix) / (n * N)
+print("c_hat_SF =", round(c_hat_SF, 5))
 
-        pi_ij = np.sum(dev**2) / n
+if d_hat_SF > 0:
+    alpha_hat_SF = np.clip((b_hat_SF - c_hat_SF) / d_hat_SF, 0, 1)
+else:
+    alpha_hat_SF = 1.0
+print("alpha_hat_SF =", round(alpha_hat_SF, 5))
 
-        pi_factor += pi_ij
-
-
-
-print("pi_factor =", round(pi_factor, 5))
-
-
-
-alpha_SF_s = (pi_factor / n) / gamma_SF
-
-alpha_SF= max(0.0, min(1.0, alpha_SF_s))
-
-
-
-print("alpha_SF =", round(alpha_SF, 5))
-
-
-
-Sigma_SF_matrix = alpha_SF * T_SF + (1 - alpha_SF) * S_matrix
-
-Sigma_SF = pd.DataFrame(Sigma_SF_matrix, index=S.index, columns=S.columns)
-
-print("Shrunk Covariance Matrix (Single-Index Target) Sigma_SF:")
-
-print(Sigma_SF.round(5))
-
+Sigma_SF = (1 - alpha_hat_SF) * S + alpha_hat_SF * T_SF
 Sigma_SF.round(5).to_excel(writer, sheet_name="Sigma_SF")
 
+#Аналитик шугаман бус агшилтын үнэлгээ (Analytical Nonlinear Shrinkage - NLS) ---
 
+eigenvalues, U = np.linalg.eigh(S_matrix)
 
-Y_nls = Y_clean.to_numpy()
+sorted_indices = np.argsort(eigenvalues)[::-1]
+eigenvalues = eigenvalues[sorted_indices]
+U = U[:, sorted_indices]
 
-Y_centered = Y_nls - np.mean(Y_nls, axis=0)
-
-
-
-eigenvalues_sample, U_nls = np.linalg.eigh(S)
-
-print(eigenvalues_sample.round(5))
-
-print(U_nls.round(5))
-
-
-
-sort_idx = np.argsort(eigenvalues_sample)
-
-lambda_sample = eigenvalues_sample[sort_idx]
-
-lambda_sample_df = pd.DataFrame(
-
-    lambda_sample,
-
-    index=Y_clean.columns,
-
-    columns=["lambda_sample"]
-
-)
-
-print(lambda_sample_df.round(5))
-
-
-
-U_nls = U_nls[:, sort_idx]
-
-
+eigenvalues = np.maximum(eigenvalues, 1e-8)
 
 c = N / n
 
-print("c = ", round(c, 5))
-
-h = N ** (-1 / 3)  # Kernel bandwidth parameter
-
-print("h = ", round(h, 5))
-
-
-
-lambda_safe = np.maximum(lambda_sample, 1e-8)
-
-log_lambda = np.log(lambda_safe)
-
-
-
-z_mat = (log_lambda[:, None] - log_lambda[None, :]) / h
-
-print(z_mat.round(5))
-
-abs_z = np.abs(z_mat)
-
-sqrt_5 = np.sqrt(5)
-
-
-
-k_x = np.where(abs_z <= sqrt_5, 3 / (4 * sqrt_5) * (1 - z_mat**2 / 5), 0)
-
-print(k_x.round(5))
-
-k_x_df = pd.DataFrame(
-
-    k_x,
-
-    index=Y_clean.columns,
-
-    columns=Y_clean.columns
-
-)
-
-k_x_df.round(5).to_excel(writer, sheet_name="k(x)")
-
-
-
-e_x = np.where(
-
-    abs_z <= sqrt_5,
-
-    3 / (10 * np.pi) * z_mat
-
-    + 3
-
-    / (4 * sqrt_5 * np.pi)
-
-    * (1 - z_mat**2 / 5)
-
-    * np.log(np.abs((sqrt_5 - z_mat) / (sqrt_5 + z_mat + 1e-12))),
-
-    0,
-
-)
-
-print(e_x.round(5))
-
-e_x_df = pd.DataFrame(
-
-    e_x,
-
-    index=Y_clean.columns,
-
-    columns=Y_clean.columns
-
-)
-
-e_x_df.round(5).to_excel(writer, sheet_name="e(x)")
-
-
-
-f_hat = np.sum(k_x, axis=1) / (N * h * lambda_safe)
-
-print(f_hat)
-
-m_hat = np.sum(e_x, axis=1) / (N * h * lambda_safe)
-
-print(m_hat)
-
-df_nls = pd.DataFrame(
-
-    [f_hat, m_hat],
-
-    index=["f_hat", "m_hat"],
-
-    columns=Y_clean.columns
-
-)
-
-
-
-df_nls.to_excel(
-
-    writer,
-
-    sheet_name="NLS",
-
-    index=True
-
-)
-
-
-
-d_huvaari = (1 - c - c * lambda_safe * m_hat) ** 2 + (c * np.pi * lambda_safe * f_hat) ** 2
-
-d_hat = lambda_safe / d_huvaari
-
-print(d_hat)
-
-d_hat_df = pd.DataFrame(
-
-    d_hat,
-
-    index=Y_clean.columns,
-
-    columns=["d_hat"]
-
-)
-
-d_hat_df.round(5).to_excel(writer, sheet_name="d_hat")
-
-
-
-for i in range(1, N):
-
-    if d_hat[i] < d_hat[i - 1]:
-
-        d_hat[i] = d_hat[i - 1]
-
-
-
-Sigma_NLS_matrix = U_nls @ np.diag(d_hat) @ U_nls.T
-
-Sigma_NLS = pd.DataFrame(
-
-    Sigma_NLS_matrix, index=S.index, columns=S.columns
-
-)
-
-
-
-print(
-
-    "\nShrunk Covariance Matrix (Analytical Nonlinear Shrinkage) Sigma_NLS:"
-
-)
-
-print(Sigma_NLS.round(5))
-
+h = n ** (-1/3)
+h_j = eigenvalues * h  
+
+def epanechnikov_kernel(x):
+    res = np.zeros_like(x)
+    mask = np.abs(x) <= np.sqrt(5)
+    res[mask] = (3 / (4 * np.sqrt(5))) * (1 - (x[mask] ** 2) / 5)
+    return res
+
+def hilbert_epanechnikov_kernel(x):
+    res = np.zeros_like(x)
+    mask1 = (np.abs(x) != np.sqrt(5)) & (np.abs(x) <= 1e5)
+    x_m = x[mask1]
+    log_term = np.log(np.abs((np.sqrt(5) - x_m) / (np.sqrt(5) + x_m)))
+    res[mask1] = (-3 * x_m / (10 * np.pi)) + (3 / (4 * np.sqrt(5) * np.pi)) * (1 - (x_m ** 2) / 5) * log_term
+    
+    mask2 = (np.abs(x) == np.sqrt(5))
+    res[mask2] = -3 * x[mask2] / (10 * np.pi)
+    return res
+
+f_hat = np.zeros(N)
+Hf_hat = np.zeros(N)
+
+for i in range(N):
+    lam_i = eigenvalues[i]
+    x_arg = (lam_i - eigenvalues) / h_j
+    
+    f_hat[i] = (1 / N) * np.sum((1 / h_j) * epanechnikov_kernel(x_arg))
+    Hf_hat[i] = (1 / N) * np.sum((1 / h_j) * hilbert_epanechnikov_kernel(x_arg))
+
+d_hat = np.zeros(N)
+for i in range(N):
+    lam_i = eigenvalues[i]
+    term1 = 1 - c - c * np.pi * lam_i * Hf_hat[i]
+    term2 = c * np.pi * lam_i * f_hat[i]
+    d_hat[i] = lam_i / ((term1 ** 2) + (term2 ** 2))
+
+D_hat = np.diag(d_hat)
+Sigma_NLS_matrix = U @ D_hat @ U.T
+
+Sigma_NLS = pd.DataFrame(Sigma_NLS_matrix, index=S.index, columns=S.columns)
 Sigma_NLS.round(5).to_excel(writer, sheet_name="Sigma_NLS")
+from scipy.optimize import minimize
 
 
-
-eigen_comparison = pd.DataFrame(
-
-    {
-
-        "Түүврийн хувийн утга (Sample)": lambda_sample,
-
-        "Агшсан хувийн утга (NLS)": d_hat,
-
-    },
-
-    index=[f"lambda_{i+1}" for i in range(N)],
-
-)
-
-
-
-print("\nХувийн утгуудын харьцуулалт:")
-
-print(eigen_comparison.round(5))
-
-eigen_comparison.round(5).to_excel(writer, sheet_name="Eigenvalues_NLS")
-
-
-
-cov_matrices = {
-
-    "Sample (S)": S_matrix,
-
-    "Sigma_var": Sigma_var.values if isinstance(Sigma_var, pd.DataFrame) else Sigma_var,
-
-    "Sigma_diag": Sigma_diag.values if isinstance(Sigma_diag, pd.DataFrame) else Sigma_diag,
-
-    "Sigma_corr": Sigma_corr.values if isinstance(Sigma_corr, pd.DataFrame) else Sigma_corr,
-
-    "Sigma_SF": Sigma_SF.values if isinstance(Sigma_SF, pd.DataFrame) else Sigma_SF,
-
-    "Sigma_NLS": Sigma_NLS.values if isinstance(Sigma_NLS, pd.DataFrame) else Sigma_NLS,
-
+covariance_matrices = {
+    "GMVP_Sample": S_matrix,
+    "GMVP_Var": Sigma_var.to_numpy(),
+    "GMVP_Diag": Sigma_diag.to_numpy(),
+    "GMVP_Corr": Sigma_corr.to_numpy(),
+    "GMVP_SF": Sigma_SF.to_numpy(),
+    "GMVP_NLS": Sigma_NLS_matrix
 }
 
+from scipy.optimize import minimize
+
+def solve_long_only_gmvp(Sigma):
+
+    Sigma = np.asarray(Sigma, dtype=float)
+    Sigma = (Sigma + Sigma.T) / 2
+
+    def objective(x):
+        return x @ Sigma @ x
+
+    def gradient(x):
+        return 2 * Sigma @ x
+
+    constraints = {
+        "type": "eq",
+        "fun": lambda x: np.sum(x) - 1.0,
+        "jac": lambda x: np.ones(N)
+    }
+
+    bounds = [(0.0, 1.0)] * N
+    x0 = np.ones(N) / N
+
+    result = minimize(
+        objective,
+        x0,
+        method="SLSQP",
+        jac=gradient,
+        bounds=bounds,
+        constraints=constraints,
+        options={
+            "ftol": 1e-15,
+            "maxiter": 10000
+        }
+    )
+
+    if not result.success:
+        raise RuntimeError(result.message)
+
+    return result.x
+
+gmvp_weights_df = pd.DataFrame(index=Y.columns)
+
+for name, Sigma in covariance_matrices.items():
+    weights = solve_long_only_gmvp(Sigma)
+    gmvp_weights_df[name] = weights
+
+print("\n--- Long-only GMVP жингийн нийлбэр ---")
+print(gmvp_weights_df.sum())
+
+gmvp_weights_df.round(5).to_excel(writer, sheet_name="GMVP_Weights")
+
+gmvp_risk = pd.Series(index=covariance_matrices.keys(), dtype=float)
+for name, Sigma in covariance_matrices.items():
+    w = gmvp_weights_df[name].to_numpy()
+    portfolio_variance = w.T @ Sigma @ w
+    gmvp_risk[name] = np.sqrt(portfolio_variance)
+
+print("\n--- Long-only GMVP Багцын Эрсдэл (Standard Deviation) ---")
+print(gmvp_risk.round(5))
+
+gmvp_risk.to_frame(name="Portfolio_Risk").round(5).to_excel(writer, sheet_name="GMVP_Risk")
 
 
-# ==================================================
-# GLOBAL MINIMUM VARIANCE PORTFOLIO (GMVP)
-# ==================================================
-
-# 10 хувьцааны дундаж өгөөж
-mu_vec = Y.mean().to_numpy()
-
-mu_vec_df = pd.DataFrame(
-    mu_vec,
-    index=Y.columns,
-    columns=["mu_vec"]
-)
-
-print("Mean Returns:")
-print(mu_vec_df.round(5))
-
-mu_vec_df.round(5).to_excel(writer, sheet_name="mu_vec")
-
-
-# GMVP-ийн оновчтой жинг тооцох функц
-def get_gmvp_weights(cov):
-    ones = np.ones(cov.shape[0])
-    x = np.linalg.solve(cov, ones)
-    w = x / (ones @ x)
-    return w
-
-
-# GMVP-ийн үр дүнг хадгалах
-gmvp_weights = {}
-gmvp_summary = []
-
-# Түүврийн ковариацад суурилсан GMVP
-w_S = get_gmvp_weights(S_matrix)
-
-
-# 6 ковариацын матриц тус бүрээр GMVP бодох
-for name, cov in cov_matrices.items():
-
-    # Оновчтой жин
-    w = get_gmvp_weights(cov)
-
-    gmvp_weights[name] = w
-
-    # Багцын дундаж өгөөж
-    port_ret = np.dot(w, mu_vec)
-
-    # Багцын дисперс
-    port_var = np.dot(w.T, np.dot(cov, w))
-
-    # Багцын хэлбэлзэл
-    port_vol = np.sqrt(port_var)
-
-    # Sharpe харьцаа (эрсдэлгүй өгөөж = 0)
-    sharpe = port_ret / port_vol if port_vol > 0 else 0
-
-    # Sample covariance-тай харьцуулсан turnover
-    turnover = np.sum(np.abs(w - w_S))
-
-    gmvp_summary.append({
-        "Загвар": name,
-        "Өгөөж": port_ret,
-        "Дисперс": port_var,
-        "Хэлбэлзэл": port_vol,
-        "Sharpe харьцаа": sharpe,
-        "Turnover_vs_S": turnover
-    })
-
-
-# GMVP-ийн жингийн хүснэгт
-gmvp_weights_df = pd.DataFrame(
-    gmvp_weights,
-    index=Y.columns
-)
-
-# GMVP-ийн гүйцэтгэлийн хүснэгт
-gmvp_summary_df = pd.DataFrame(gmvp_summary)
-
-
-print("\nGMVP Portfolio Weights:")
-print(gmvp_weights_df.round(5))
-
-print("\nGMVP Portfolio Performance:")
-print(gmvp_summary_df.round(5))
-
-
-# Excel файлд хадгалах
-gmvp_weights_df.round(5).to_excel(
-    writer,
-    sheet_name="GMVP_Weights"
-)
-
-gmvp_summary_df.round(5).to_excel(
-    writer,
-    sheet_name="GMVP_Summary",
-    index=False
-)
 
 writer.close()

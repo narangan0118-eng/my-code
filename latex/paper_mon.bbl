@@ -23,6 +23,12 @@ Frost, P.~A. and Savarino, J.~E. (1986).
 \newblock An empirical bayes approach to efficient portfolio selection.
 \newblock {\em Journal of Financial and Quantitative Analysis}, 21(3):293--305.
 
+\bibitem[Jagannathan and Ma, 2003]{JagannathanMa2003}
+Jagannathan, R. and Ma, T. (2003).
+\newblock Risk reduction in large portfolios: Why imposing the wrong
+  constraints helps.
+\newblock {\em The Journal of Finance}, 58(4):1651--1683.
+
 \bibitem[Ledoit, 1995]{ledoit1995}
 Ledoit, O. (1995).
 \newblock {\em Essays on Risk and Return in the Stock Market}.
@@ -73,11 +79,5 @@ Shi, F., Shu, L., and He, J. (2025).
 \newblock Improving minimum-variance portfolio through shrinkage of large
   covariance matrices.
 \newblock {\em Economic Modelling}.
-
-\bibitem[Zivot, 2021]{zivot2021}
-Zivot, E. (2021).
-\newblock {\em Introduction to Computational Finance and Financial Econometrics
-  with R}.
-\newblock Draft textbook, University of Washington.
 
 \end{thebibliography}

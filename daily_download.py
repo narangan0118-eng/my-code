@@ -9,15 +9,15 @@ tickers = {
     "Amazon": "AMZN",
     "Nvidia": "NVDA",
     "Meta": "META",
-    "Samsung": "005930.KS",
+    "AMD": "AMD",
     "Tesla": "TSLA",
     "Intel": "INTC",
-    "Tencent": "0700.HK"
+    "Broadcom": "AVGO",
     "SP500": "^GSPC"
 }
 
 # Хугацаа
-start_date = "2012-01-01"
+start_date = "2012-05-01"
 end_date = "2026-10-09"
 
 # Өдөр тутмын хаалтын ханш хадгалах DataFrame

@@ -274,123 +274,80 @@ Sigma_NLS_matrix = U @ D_hat @ U.T
 
 Sigma_NLS = pd.DataFrame(Sigma_NLS_matrix, index=S.index, columns=S.columns)
 Sigma_NLS.round(5).to_excel(writer, sheet_name="Sigma_NLS")
-
-writer.close()
-
+from scipy.optimize import minimize
 
 
+covariance_matrices = {
+    "GMVP_Sample": S_matrix,
+    "GMVP_Var": Sigma_var.to_numpy(),
+    "GMVP_Diag": Sigma_diag.to_numpy(),
+    "GMVP_Corr": Sigma_corr.to_numpy(),
+    "GMVP_SF": Sigma_SF.to_numpy(),
+    "GMVP_NLS": Sigma_NLS_matrix
+}
+
+from scipy.optimize import minimize
+
+def solve_long_only_gmvp(Sigma):
+
+    Sigma = np.asarray(Sigma, dtype=float)
+    Sigma = (Sigma + Sigma.T) / 2
+
+    def objective(x):
+        return x @ Sigma @ x
+
+    def gradient(x):
+        return 2 * Sigma @ x
+
+    constraints = {
+        "type": "eq",
+        "fun": lambda x: np.sum(x) - 1.0,
+        "jac": lambda x: np.ones(N)
+    }
+
+    bounds = [(0.0, 1.0)] * N
+    x0 = np.ones(N) / N
+
+    result = minimize(
+        objective,
+        x0,
+        method="SLSQP",
+        jac=gradient,
+        bounds=bounds,
+        constraints=constraints,
+        options={
+            "ftol": 1e-15,
+            "maxiter": 10000
+        }
+    )
+
+    if not result.success:
+        raise RuntimeError(result.message)
+
+    return result.x
+
+gmvp_weights_df = pd.DataFrame(index=Y.columns)
+
+for name, Sigma in covariance_matrices.items():
+    weights = solve_long_only_gmvp(Sigma)
+    gmvp_weights_df[name] = weights
+
+print("\n--- Long-only GMVP жингийн нийлбэр ---")
+print(gmvp_weights_df.sum())
+
+gmvp_weights_df.round(5).to_excel(writer, sheet_name="GMVP_Weights")
+
+gmvp_risk = pd.Series(index=covariance_matrices.keys(), dtype=float)
+for name, Sigma in covariance_matrices.items():
+    w = gmvp_weights_df[name].to_numpy()
+    portfolio_variance = w.T @ Sigma @ w
+    gmvp_risk[name] = np.sqrt(portfolio_variance)
+
+print("\n--- Long-only GMVP Багцын Эрсдэл (Standard Deviation) ---")
+print(gmvp_risk.round(5))
+
+gmvp_risk.to_frame(name="Portfolio_Risk").round(5).to_excel(writer, sheet_name="GMVP_Risk")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ==================================================
-# GLOBAL MINIMUM VARIANCE PORTFOLIO (GMVP)
-# ==================================================
-
-# 10 хувьцааны дундаж өгөөж
-mu_vec = Y.mean().to_numpy()
-
-mu_vec_df = pd.DataFrame(
-    mu_vec,
-    index=Y.columns,
-    columns=["mu_vec"]
-)
-
-print("Mean Returns:")
-print(mu_vec_df.round(5))
-
-mu_vec_df.round(5).to_excel(writer, sheet_name="mu_vec")
-
-
-# GMVP-ийн оновчтой жинг тооцох функц
-def get_gmvp_weights(cov):
-    ones = np.ones(cov.shape[0])
-    x = np.linalg.solve(cov, ones)
-    w = x / (ones @ x)
-    return w
-
-
-# GMVP-ийн үр дүнг хадгалах
-gmvp_weights = {}
-gmvp_summary = []
-
-# Түүврийн ковариацад суурилсан GMVP
-w_S = get_gmvp_weights(S_matrix)
-
-
-# 6 ковариацын матриц тус бүрээр GMVP бодох
-for name, cov in cov_matrices.items():
-
-    # Оновчтой жин
-    w = get_gmvp_weights(cov)
-
-    gmvp_weights[name] = w
-
-    # Багцын дундаж өгөөж
-    port_ret = np.dot(w, mu_vec)
-
-    # Багцын дисперс
-    port_var = np.dot(w.T, np.dot(cov, w))
-
-    # Багцын хэлбэлзэл
-    port_vol = np.sqrt(port_var)
-
-    # Sharpe харьцаа (эрсдэлгүй өгөөж = 0)
-    sharpe = port_ret / port_vol if port_vol > 0 else 0
-
-    # Sample covariance-тай харьцуулсан turnover
-    turnover = np.sum(np.abs(w - w_S))
-
-    gmvp_summary.append({
-        "Загвар": name,
-        "Өгөөж": port_ret,
-        "Дисперс": port_var,
-        "Хэлбэлзэл": port_vol,
-        "Sharpe харьцаа": sharpe,
-        "Turnover_vs_S": turnover
-    })
-
-
-# GMVP-ийн жингийн хүснэгт
-gmvp_weights_df = pd.DataFrame(
-    gmvp_weights,
-    index=Y.columns
-)
-
-# GMVP-ийн гүйцэтгэлийн хүснэгт
-gmvp_summary_df = pd.DataFrame(gmvp_summary)
-
-
-print("\nGMVP Portfolio Weights:")
-print(gmvp_weights_df.round(5))
-
-print("\nGMVP Portfolio Performance:")
-print(gmvp_summary_df.round(5))
-
-
-# Excel файлд хадгалах
-gmvp_weights_df.round(5).to_excel(
-    writer,
-    sheet_name="GMVP_Weights"
-)
-
-gmvp_summary_df.round(5).to_excel(
-    writer,
-    sheet_name="GMVP_Summary",
-    index=False
-)
 
 writer.close()

@@ -5,50 +5,49 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
-Repeated entry---line 289 of file references.bib
+Repeated entry---line 277 of file references.bib
  : @article{ledoitwolf2004b
  :                         ,
 I'm skipping whatever remains of this entry
-Warning--empty publisher in zivot2021
 You've used 14 entries,
             1935 wiz_defined-function locations,
-            556 strings with 5689 characters,
-and the built_in function-call counts, 5303 in all, are:
-= -- 536
-> -- 179
+            558 strings with 5713 characters,
+and the built_in function-call counts, 5445 in all, are:
+= -- 555
+> -- 185
 < -- 12
-+ -- 63
-- -- 56
-* -- 465
-:= -- 924
++ -- 65
+- -- 58
+* -- 484
+:= -- 943
 add.period$ -- 42
 call.type$ -- 14
-change.case$ -- 97
+change.case$ -- 99
 chr.to.int$ -- 13
-cite$ -- 15
+cite$ -- 14
 duplicate$ -- 191
-empty$ -- 383
-format.name$ -- 86
-if$ -- 1019
+empty$ -- 392
+format.name$ -- 90
+if$ -- 1048
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 13
+missing$ -- 12
 newline$ -- 73
 num.names$ -- 42
-pop$ -- 69
+pop$ -- 65
 preamble$ -- 1
-purify$ -- 98
+purify$ -- 99
 quote$ -- 0
-skip$ -- 146
+skip$ -- 147
 stack$ -- 0
-substring$ -- 436
+substring$ -- 467
 swap$ -- 14
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 82
-warning$ -- 1
-while$ -- 48
+type$ -- 84
+warning$ -- 0
+while$ -- 50
 width$ -- 0
-write$ -- 182
+write$ -- 183
 (There was 1 error message)
