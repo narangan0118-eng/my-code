@@ -18,10 +18,10 @@ tickers = {
 
 # Хугацаа
 start_date = "2012-05-01"
-end_date = "2026-10-09"
+end_date = "2026-09-30"
 
-# Өдөр тутмын хаалтын ханш хадгалах DataFrame
-daily_close = pd.DataFrame()
+# 7 хоногийн хаалтын ханш хадгалах DataFrame
+weekly_close = pd.DataFrame()
 
 # Компани бүрийн өгөгдлийг татах
 for company, ticker in tickers.items():
@@ -37,23 +37,25 @@ for company, ticker in tickers.items():
     )
 
     if not data.empty:
-        daily_close[company] = data["Close"]
+        # Долоо хоногийн сүүлийн арилжааны өдрийн хаалтын ханш
+        weekly = data["Close"].resample("W-FRI").last()
+        weekly_close[company] = weekly
 
 # Огноог багана болгох
-daily_close.index.name = "Date"
-daily_close = daily_close.reset_index()
+weekly_close.index.name = "Date"
+weekly_close = weekly_close.reset_index()
 
 # Хоосон утгатай мөрүүдийг устгах
-daily_clean = daily_close.dropna().copy()
+weekly_clean = weekly_close.dropna().copy()
 
 # Ажиглалтын тоо
-print("Анхны ажиглалт:", len(daily_close))
-print("Үлдсэн ажиглалт:", len(daily_clean))
-print("Хасагдсан мөр:", len(daily_close) - len(daily_clean))
+print("Анхны ажиглалт:", len(weekly_close))
+print("Үлдсэн ажиглалт:", len(weekly_clean))
+print("Хасагдсан мөр:", len(weekly_close) - len(weekly_clean))
 
 # Цэвэрлэсэн өгөгдлийг Excel-д хадгалах
-daily_clean.to_excel(
-    "daily.xlsx",
+weekly_clean.to_excel(
+    "weekly.xlsx",
     sheet_name="close",
     index=False
 )

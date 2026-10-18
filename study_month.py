@@ -236,9 +236,9 @@ h = n ** (-1/3)
 h_j = eigenvalues * h  
 
 def epanechnikov_kernel(x):
-    res = np.zeros_like(x)
-    mask = np.abs(x) <= np.sqrt(5)
-    res[mask] = (3 / (4 * np.sqrt(5))) * (1 - (x[mask] ** 2) / 5)
+    res = np.zeros_like(x, dtype=float)
+    mask = np.abs(x) <= np.sqrt(5.0)
+    res[mask] = (3.0 / (4.0 * np.sqrt(5.0))) * (1.0 - x[mask] ** 2 / 5.0)
     return res
 
 def hilbert_epanechnikov_kernel(x):
@@ -274,6 +274,8 @@ Sigma_NLS_matrix = U @ D_hat @ U.T
 
 Sigma_NLS = pd.DataFrame(Sigma_NLS_matrix, index=S.index, columns=S.columns)
 Sigma_NLS.round(5).to_excel(writer, sheet_name="Sigma_NLS")
+
+
 from scipy.optimize import minimize
 
 

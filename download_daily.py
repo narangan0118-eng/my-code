@@ -18,10 +18,10 @@ tickers = {
 
 # Хугацаа
 start_date = "2012-05-01"
-end_date = "2026-10-09"
+end_date = "2026-09-30"
 
-# Сарын хаалтын ханш хадгалах DataFrame
-monthly_close = pd.DataFrame()
+# Өдөр тутмын хаалтын ханш хадгалах DataFrame
+daily_close = pd.DataFrame()
 
 # Компани бүрийн өгөгдлийг татах
 for company, ticker in tickers.items():
@@ -30,30 +30,30 @@ for company, ticker in tickers.items():
         ticker,
         start=start_date,
         end=end_date,
-        interval="1mo",
+        interval="1d",
         auto_adjust=True,
         multi_level_index=False,
         progress=False
     )
 
     if not data.empty:
-        monthly_close[company] = data["Close"]
+        daily_close[company] = data["Close"]
 
 # Огноог багана болгох
-monthly_close.index.name = "Date"
-monthly_close = monthly_close.reset_index()
+daily_close.index.name = "Date"
+daily_close = daily_close.reset_index()
 
 # Хоосон утгатай мөрүүдийг устгах
-monthly_clean = monthly_close.dropna().copy()
+daily_clean = daily_close.dropna().copy()
 
 # Ажиглалтын тоо
-print("Анхны ажиглалт:", len(monthly_close))
-print("Үлдсэн ажиглалт:", len(monthly_clean))
-print("Хасагдсан мөр:", len(monthly_close) - len(monthly_clean))
+print("Анхны ажиглалт:", len(daily_close))
+print("Үлдсэн ажиглалт:", len(daily_clean))
+print("Хасагдсан мөр:", len(daily_close) - len(daily_clean))
 
 # Цэвэрлэсэн өгөгдлийг Excel-д хадгалах
-monthly_clean.to_excel(
-    "monthly.xlsx",
+daily_clean.to_excel(
+    "daily.xlsx",
     sheet_name="close",
     index=False
 )

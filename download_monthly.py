@@ -18,10 +18,10 @@ tickers = {
 
 # Хугацаа
 start_date = "2012-05-01"
-end_date = "2026-10-09"
+end_date = "2026-09-30"
 
-# Жилийн хаалтын ханш хадгалах DataFrame
-yearly_close = pd.DataFrame()
+# Сарын хаалтын ханш хадгалах DataFrame
+monthly_close = pd.DataFrame()
 
 # Компани бүрийн өгөгдлийг татах
 for company, ticker in tickers.items():
@@ -37,25 +37,23 @@ for company, ticker in tickers.items():
     )
 
     if not data.empty:
-        # Жил бүрийн сүүлийн сарын хаалтын ханш
-        yearly = data["Close"].resample("YE").last()
-        yearly_close[company] = yearly
+        monthly_close[company] = data["Close"]
 
 # Огноог багана болгох
-yearly_close.index.name = "Date"
-yearly_close = yearly_close.reset_index()
+monthly_close.index.name = "Date"
+monthly_close = monthly_close.reset_index()
 
 # Хоосон утгатай мөрүүдийг устгах
-yearly_clean = yearly_close.dropna().copy()
+monthly_clean = monthly_close.dropna().copy()
 
 # Ажиглалтын тоо
-print("Анхны ажиглалт:", len(yearly_close))
-print("Үлдсэн ажиглалт:", len(yearly_clean))
-print("Хасагдсан мөр:", len(yearly_close) - len(yearly_clean))
+print("Анхны ажиглалт:", len(monthly_close))
+print("Үлдсэн ажиглалт:", len(monthly_clean))
+print("Хасагдсан мөр:", len(monthly_close) - len(monthly_clean))
 
 # Цэвэрлэсэн өгөгдлийг Excel-д хадгалах
-yearly_clean.to_excel(
-    "yearly.xlsx",
+monthly_clean.to_excel(
+    "monthly.xlsx",
     sheet_name="close",
     index=False
 )

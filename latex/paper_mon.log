@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.11)  15 OCT 2026 23:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.11)  18 OCT 2026 23:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -827,91 +827,116 @@ OT1/cmr/m/n/12 )(\OML/cmm/m/it/12 R[] \OMS/cmsy/m/n/12 ^^@ [][]\OT1/cmr/m/n/12
 2 )[] \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 t[][]\OMS/cmsy/m/n/12 ^^B
  []
 
-) [20] (2_5_1_analytic_nonlinear.tex [21] [22]) [23] [24]
-Overfull \hbox (7.13727pt too wide) in paragraph at lines 676--682
+) [20] (2_5_1_analytic_nonlinear.tex [21] [22]) (2_6_empirical_methodology.tex
+
+Package natbib Warning: Citation `LedoitWolf2003' on page 23 undefined on input
+ line 8.
+
+
+Package natbib Warning: Citation `DeMiguelGarlappiUppal2009' on page 23 undefin
+ed on input line 8.
+
+[23]
+
+Package natbib Warning: Citation `DeMiguelGarlappiUppal2009' on page 24 undefin
+ed on input line 22.
+
+[24]
+Overfull \hbox (7.13727pt too wide) in paragraph at lines 127--128
 \T2A/cmr/m/n/12 бэл-зэл, тіів-рийн ко-ва-риа-цын мат-риц-тай харь-цуул-сан ва-р
 иа-цын буу-ралт бо-лон Sharpe-
  []
 
-[25]
-Overfull \hbox (11.70834pt too wide) in paragraph at lines 842--846
-[]\T2A/cmr/m/n/12 Сарын иліі-дэл °г°°-жіі-дийн ав-то-ко-ва-риа-цыг тэг гэж із-с
-эн н°х-ц°лд жи-лийн Sharpe-
- []
-
-[26] [27]
-Overfull \hbox (9.26097pt too wide) in paragraph at lines 1169--1175
-[]\T2A/cmr/m/n/12 Энэхіі шал-гал-таар аг-шил-тын інэ-лэгч-дийн гій-цэт-гэ-лийн 
-ял-гаа ста-тис-ти-кийн хувьд
- []
-
-[28] [29]
-Overfull \hbox (4.39575pt too wide) in paragraph at lines 1353--1354
+[25] [26] [27] [28] [29] [30])
+Overfull \hbox (4.39575pt too wide) in paragraph at lines 507--508
 \T2A/cmr/m/n/12 ашиг-ла-сан. Су-дал-гаанд Apple (AAPL), Microsoft (MSFT), Alpha
 bet (GOOGL), Amazon
  []
 
 
-Overfull \hbox (10.21017pt too wide) in paragraph at lines 1353--1354
+Overfull \hbox (10.21017pt too wide) in paragraph at lines 507--508
 \T2A/cmr/m/n/12 (AMZN), Nvidia (NVDA), Meta (META), Samsung Electronics (005930
 .KS), Tesla (TSLA),
  []
 
 
-Overfull \hbox (9.3243pt too wide) in paragraph at lines 1355--1356
+Overfull \hbox (9.3243pt too wide) in paragraph at lines 509--510
 \T2A/cmr/m/n/12 дол ашиг бо-лон хувь-цаа ху-ваал-тын н°-л°°г хар-гал-зан ізэх з
 о-рил-гоор \T2A/cmtt/m/n/12 auto_adjust=True
  []
 
-[30] [31] (paper_mon.bbl [32]) [33] (paper_mon.aux)
+[31] [32]
+Overfull \hbox (16.83096pt too wide) in paragraph at lines 620--621
+\T2A/cmr/m/n/12 хоо-ронд ажиг-лагд-сан б°-г°°д кор-ре-ля-цын ко-эф-фи-ци-ент 0.
+6205 бай-на. Тіінч-лэн Microsoft
+ []
+
+[33]
+Overfull \hbox (0.39575pt too wide) in paragraph at lines 627--627
+[]\T2A/cmr/bx/n/14.4 Ковариацын мат-ри-цын інэ-лэгч-дийн тіів-рээс га-дуурх гій
+-
+ []
+
+
+Overfull \hbox (4.91522pt too wide) in paragraph at lines 653--653
+[]\T2A/cmr/bx/n/14.4 Сургалтын цонх-ны ур-таас ха-маа-рах мэд-рэм-жийн шин-жил-
+
+ []
+
+(paper_mon.bbl [34])
+
+Package natbib Warning: There were undefined citations.
+
+[35] (paper_mon.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-08-10>
  ***********
 Package rerunfilecheck Info: File `paper_mon.out' has not changed.
-(rerunfilecheck)             Checksum: 0A71FF1F6DD1D1E5B0B8BEE0DC75B32E;8754.
+(rerunfilecheck)             Checksum: D85E28F1BCDFCFE898F79219B3431584;9088.
  ) 
 Here is how much of TeX's memory you used:
- 14380 strings out of 467441
- 228789 string characters out of 5408077
- 662016 words of memory out of 5000000
- 43328 multiletter control sequences out of 15000+600000
- 652366 words of font info for 106 fonts, out of 8000000 for 9000
+ 14401 strings out of 467441
+ 229270 string characters out of 5408077
+ 669768 words of memory out of 5000000
+ 43341 multiletter control sequences out of 15000+600000
+ 653320 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,12n,79p,1449b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\latt120
-0.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\lati
+ 74i,13n,79p,1449b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\larm080
+0.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\latt
 1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi600\l
-abx1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi60
-0\labx1440.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dp
-i600\larm1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a
-/dpi600\labx1728.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-
-t2a/dpi600\labx1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/
-lh-t2a/dpi600\latt1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/
-lh/lh-t2a/dpi600\larm1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfo
-ur/lh/lh-t2a/dpi600\larm1440.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/l
-jfour/lh/lh-t2a/dpi600\labx2074.pk><C:/Users/User/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/User/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/User/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/User/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Use
-r/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Us
-ers/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb
-><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-mib10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cmextra/cmmib8.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmr10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/font
-s/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/User/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/User/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/User/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/User/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/User
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><
-C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols
-/msbm10.pfb>
-Output written on paper_mon.pdf (33 pages, 513181 bytes).
+ati1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dpi60
+0\labx1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a/dp
+i600\labx1440.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-t2a
+/dpi600\larm1200.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/lh-
+t2a/dpi600\labx1728.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/lh/
+lh-t2a/dpi600\labx1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfour/
+lh/lh-t2a/dpi600\latt1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/ljfo
+ur/lh/lh-t2a/dpi600\larm1095.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/pk/l
+jfour/lh/lh-t2a/dpi600\larm1440.pk> <C:\Users\User\AppData\Local\MiKTeX\fonts/p
+k/ljfour/lh/lh-t2a/dpi600\labx2074.pk><C:/Users/User/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/User/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/User/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/User/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/
+User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:
+/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.
+pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmmib10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
+sfonts/cmextra/cmmib8.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb><C:/Users/User/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/User/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/User/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/User/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/User/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/U
+ser/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pf
+b><C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb>
+Output written on paper_mon.pdf (35 pages, 532056 bytes).
 PDF statistics:
- 1045 PDF objects out of 1200 (max. 8388607)
- 127 named destinations out of 1000 (max. 500000)
+ 1090 PDF objects out of 1200 (max. 8388607)
+ 129 named destinations out of 1000 (max. 500000)
  217 words of extra memory for PDF output out of 10000 (max. 10000000)
 
