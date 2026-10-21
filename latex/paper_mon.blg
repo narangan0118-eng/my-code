@@ -1,53 +1,55 @@
 This is BibTeX, Version 0.99e
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: paper_mon.aux
-Reallocating 'name_of_file' (item size: 1) to 8 items.
-The style file: apalike.bst
+Case mismatch error between cite keys LedoitWolf2003 and ledoitwolf2003
+---line 58 of file paper_mon.aux
+ : \citation{LedoitWolf2003
+ :                         ,DeMiguelGarlappiUppal2009}
+I'm skipping whatever remains of this command
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
-Repeated entry---line 277 of file references.bib
- : @article{ledoitwolf2004b
- :                         ,
-I'm skipping whatever remains of this entry
-You've used 14 entries,
-            1935 wiz_defined-function locations,
-            558 strings with 5713 characters,
-and the built_in function-call counts, 5445 in all, are:
-= -- 555
-> -- 185
-< -- 12
-+ -- 65
-- -- 58
-* -- 484
-:= -- 943
-add.period$ -- 42
-call.type$ -- 14
-change.case$ -- 99
-chr.to.int$ -- 13
-cite$ -- 14
-duplicate$ -- 191
-empty$ -- 392
-format.name$ -- 90
-if$ -- 1048
+Warning--empty year in chinobing_sp500
+You've used 12 entries,
+            2773 wiz_defined-function locations,
+            677 strings with 6845 characters,
+and the built_in function-call counts, 5456 in all, are:
+= -- 532
+> -- 246
+< -- 10
++ -- 85
+- -- 72
+* -- 450
+:= -- 844
+add.period$ -- 49
+call.type$ -- 12
+change.case$ -- 59
+chr.to.int$ -- 11
+cite$ -- 25
+duplicate$ -- 233
+empty$ -- 461
+format.name$ -- 98
+if$ -- 1134
 int.to.chr$ -- 2
-int.to.str$ -- 0
-missing$ -- 12
-newline$ -- 73
-num.names$ -- 42
-pop$ -- 65
+int.to.str$ -- 1
+missing$ -- 10
+newline$ -- 81
+num.names$ -- 48
+pop$ -- 95
 preamble$ -- 1
-purify$ -- 99
+purify$ -- 48
 quote$ -- 0
-skip$ -- 147
+skip$ -- 175
 stack$ -- 0
-substring$ -- 467
+substring$ -- 285
 swap$ -- 14
-text.length$ -- 1
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 84
-warning$ -- 0
-while$ -- 50
+type$ -- 132
+warning$ -- 1
+while$ -- 55
 width$ -- 0
-write$ -- 183
+write$ -- 187
 (There was 1 error message)

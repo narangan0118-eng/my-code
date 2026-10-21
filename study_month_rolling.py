@@ -4,6 +4,8 @@ from scipy.optimize import minimize
 from pathlib import Path
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 INPUT_FILE = Path("monthly.xlsx")
 OUTPUT_FILE = "monthly_rolling_window.xlsx"
@@ -177,8 +179,136 @@ def solve_long_only_gmvp(sigma):
     if abs(weights.sum() - 1.0) > 1e-7 or weights.min() < -1e-8:
         raise RuntimeError('GMVP жингийн хязгаарлалт зөрчигдлөө.')
     return weights
+# ==================================================
+# GMVP-ийн түүврээс гадуурх сарын өгөөжийн график
+# ==================================================
 
+def plot_oos_returns(oos):
 
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    for method in METHODS:
+        ax.plot(
+            oos.index,
+            oos[method] * 100,
+            label=method,
+            linewidth=1.5
+        )
+
+    ax.axhline(
+        y=0,
+        color='black',
+        linestyle='--',
+        linewidth=0.8
+    )
+
+    ax.set_title(
+        'Out-of-Sample Monthly Returns of GMVP',
+        fontsize=13
+    )
+
+    ax.set_xlabel('Date', fontsize=11)
+    ax.set_ylabel('Monthly Return (%)', fontsize=11)
+
+    ax.xaxis.set_major_locator(
+        mdates.MonthLocator(interval=6)
+    )
+
+    ax.xaxis.set_major_formatter(
+        mdates.DateFormatter('%Y-%m')
+    )
+
+    ax.tick_params(axis='x', rotation=45)
+
+    ax.legend(
+        loc='upper center',
+        bbox_to_anchor=(0.5, -0.18),
+        ncol=6,
+        frameon=False
+    )
+
+    ax.grid(True, alpha=0.25)
+
+    fig.tight_layout()
+
+    fig.savefig(
+        'GMVP_OOS_Monthly_Returns.png',
+        dpi=300,
+        bbox_inches='tight'
+    )
+
+    fig.savefig(
+        'GMVP_OOS_Monthly_Returns.pdf',
+        bbox_inches='tight'
+    )
+
+    plt.show()
+    plt.close(fig)
+# ==================================================
+# Relative Variance Reduction (RVR) Graph
+# ==================================================
+
+def plot_rvr(rvr_percent):
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+
+    values = rvr_percent.reindex(METHODS)
+
+    bars = ax.bar(
+        values.index,
+        values.values,
+        width=0.6,
+        color=[
+            '#808080' if v == 0
+            else '#2E86AB' if v > 0
+            else '#C44E52'
+            for v in values.values
+        ]
+    )
+
+    ax.axhline(0, color='black', linewidth=0.8)
+
+    for bar, value in zip(bars, values.values):
+        ax.annotate(
+            f'{value:.2f}%',
+            xy=(bar.get_x() + bar.get_width() / 2, value),
+            xytext=(0, 5 if value >= 0 else -15),
+            textcoords='offset points',
+            ha='center',
+            fontsize=10
+        )
+
+    ax.set_ylabel('Relative Variance Reduction (%)')
+    ax.set_xlabel('Covariance Estimator')
+
+    ax.set_title(
+        'Out-of-Sample Relative Variance Reduction',
+        fontsize=12
+    )
+
+    ax.set_ylim(
+        min(-2, values.min() - 1),
+        max(12, values.max() + 1)
+    )
+
+    ax.grid(axis='y', alpha=0.2)
+    ax.set_axisbelow(True)
+
+    plt.tight_layout()
+
+    plt.savefig(
+        'GMVP_OOS_RVR.png',
+        dpi=300,
+        bbox_inches='tight'
+    )
+
+    plt.savefig(
+        'GMVP_OOS_RVR.pdf',
+        bbox_inches='tight'
+    )
+
+    plt.show()
+    plt.close(fig)
 def main():
     Y, market = load_returns(INPUT_FILE)
     n, N = Y.shape #n=172, N=10, WINDOW=120
@@ -236,6 +366,10 @@ def main():
         print(f'{t-WINDOW+1:02d}/{n-WINDOW} | {date:%Y-%m} | OOS тооцоолсон')
 
     oos = pd.DataFrame(oos_records).set_index('Date')
+
+    # Зургаан үнэлэгчийн OOS сарын өгөөжийн график
+    plot_oos_returns(oos)
+
     M = len(oos)
     oos_mean = oos.mean(axis=0)
     oos_variance = oos.var(axis=0, ddof=1)
@@ -244,6 +378,7 @@ def main():
     rvr_percent = 100 * (
         1 - oos_variance / oos_variance["Sample"]
     )
+    plot_rvr(rvr_percent)
     rf_monthly = 0.0
     excess_returns = oos - rf_monthly
     sharpe_monthly = (
