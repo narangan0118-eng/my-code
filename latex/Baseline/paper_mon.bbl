@@ -1,0 +1,150 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ando and Xiao(2023)]{AndoXiao2023}
+Sakai Ando and Mingmei Xiao.
+\newblock High-dimensional covariance matrix estimation: Shrinkage toward a
+  diagonal target.
+\newblock IMF Working Paper WP/23/257, International Monetary Fund, 2023.
+
+\bibitem[Bickel and Levina(2008)]{BickelLevina2008}
+Peter~J. Bickel and Elizaveta Levina.
+\newblock Regularized estimation of large covariance matrices.
+\newblock \emph{The Annals of Statistics}, 36\penalty0 (1):\penalty0 199--227,
+  2008.
+\newblock \doi{10.1214/009053607000000758}.
+
+\bibitem[Chen et~al.(2010)Chen, Wiesel, Eldar, and Hero]{ChenEtAl2010}
+Yilun Chen, Ami Wiesel, Yonina~C. Eldar, and Alfred~O. Hero.
+\newblock Shrinkage algorithms for {MMSE} covariance estimation.
+\newblock \emph{IEEE Transactions on Signal Processing}, 58\penalty0
+  (10):\penalty0 5016--5029, 2010.
+\newblock \doi{10.1109/TSP.2010.2053029}.
+
+\bibitem[{chinobing}()]{chinobing_sp500}
+{chinobing}.
+\newblock Historical {S\&P} 500 constituents.
+\newblock GitHub repository.
+\newblock URL \url{https://github.com/chinobing/historical_sp500_constituents}.
+\newblock Accessed: 2026-10-21.
+
+\bibitem[De~Nard and Kostovic(2026)]{DeNardKostovic2026}
+Gianluca De~Nard and Damjan Kostovic.
+\newblock Learning the shrinkage intensity: A data-driven approach for
+  risk-optimized portfolios.
+\newblock \emph{Journal of Financial Econometrics}, 24\penalty0 (2):\penalty0
+  nbag002, 2026.
+\newblock \doi{10.1093/jjfinec/nbag002}.
+
+\bibitem[De~Nard et~al.(2021)De~Nard, Ledoit, and Wolf]{denard2021factor}
+Gianluca De~Nard, Olivier Ledoit, and Michael Wolf.
+\newblock Factor models for portfolio selection in large dimensions: The good,
+  the better and the ugly.
+\newblock \emph{Journal of Financial Econometrics}, 19\penalty0 (2):\penalty0
+  236--257, 2021.
+\newblock \doi{10.1093/jjfinec/nby033}.
+
+\bibitem[DeMiguel et~al.(2009)DeMiguel, Garlappi, and Uppal]{demiguel2009}
+Victor DeMiguel, Lorenzo Garlappi, and Raman Uppal.
+\newblock Optimal versus naive diversification: How inefficient is the 1/n
+  portfolio strategy?
+\newblock \emph{The Review of Financial Studies}, 22\penalty0 (5):\penalty0
+  1915--1953, 2009.
+\newblock \doi{10.1093/rfs/hhm075}.
+
+\bibitem[Frost and Savarino(1986)]{frostsavarino1986}
+Peter~A. Frost and James~E. Savarino.
+\newblock An empirical bayes approach to efficient portfolio selection.
+\newblock \emph{Journal of Financial and Quantitative Analysis}, 21\penalty0
+  (3):\penalty0 293--305, 1986.
+\newblock \doi{10.2307/2331043}.
+
+\bibitem[Jagannathan and Ma(2003)]{JagannathanMa2003}
+Ravi Jagannathan and Tongshu Ma.
+\newblock Risk reduction in large portfolios: Why imposing the wrong
+  constraints helps.
+\newblock \emph{The Journal of Finance}, 58\penalty0 (4):\penalty0 1651--1683,
+  2003.
+\newblock \doi{10.1111/1540-6261.00580}.
+
+\bibitem[Ledoit and Wolf(2003)]{ledoitwolf2003}
+Olivier Ledoit and Michael Wolf.
+\newblock Improved estimation of the covariance matrix of stock returns with an
+  application to portfolio selection.
+\newblock \emph{Journal of Empirical Finance}, 10\penalty0 (5):\penalty0
+  603--621, 2003.
+\newblock \doi{10.1016/S0927-5398(03)00007-0}.
+
+\bibitem[Ledoit and Wolf(2004{\natexlab{a}})]{ledoitwolf2004a}
+Olivier Ledoit and Michael Wolf.
+\newblock A well-conditioned estimator for large-dimensional covariance
+  matrices.
+\newblock \emph{Journal of Multivariate Analysis}, 88\penalty0 (2):\penalty0
+  365--411, 2004{\natexlab{a}}.
+\newblock \doi{10.1016/S0047-259X(03)00096-4}.
+
+\bibitem[Ledoit and Wolf(2004{\natexlab{b}})]{ledoitwolf2004b}
+Olivier Ledoit and Michael Wolf.
+\newblock Honey, i shrunk the sample covariance matrix.
+\newblock \emph{The Journal of Portfolio Management}, 30\penalty0 (4):\penalty0
+  110--119, 2004{\natexlab{b}}.
+\newblock \doi{10.3905/jpm.2004.110}.
+
+\bibitem[Ledoit and Wolf(2012)]{ledoitwolf2012}
+Olivier Ledoit and Michael Wolf.
+\newblock Nonlinear shrinkage estimation of large-dimensional covariance
+  matrices.
+\newblock \emph{The Annals of Statistics}, 40\penalty0 (2):\penalty0
+  1024--1060, 2012.
+\newblock \doi{10.1214/12-AOS989}.
+
+\bibitem[Ledoit and Wolf(2017)]{ledoitwolf2017}
+Olivier Ledoit and Michael Wolf.
+\newblock Nonlinear shrinkage of the covariance matrix for portfolio selection:
+  Markowitz meets goldilocks.
+\newblock \emph{The Review of Financial Studies}, 30\penalty0 (12):\penalty0
+  4349--4388, 2017.
+\newblock \doi{10.1093/rfs/hhx052}.
+
+\bibitem[Ledoit and Wolf(2020)]{ledoitwolf2020}
+Olivier Ledoit and Michael Wolf.
+\newblock Analytical nonlinear shrinkage of large-dimensional covariance
+  matrices.
+\newblock \emph{The Annals of Statistics}, 48\penalty0 (5):\penalty0
+  3043--3065, 2020.
+\newblock \doi{10.1214/19-AOS1921}.
+
+\bibitem[Ledoit and Wolf(2022)]{ledoitwolf2022}
+Olivier Ledoit and Michael Wolf.
+\newblock The power of (non-)linear shrinking: A review and guide to covariance
+  matrix estimation.
+\newblock \emph{Journal of Financial Econometrics}, 20\penalty0 (1):\penalty0
+  187--218, 2022.
+\newblock \doi{10.1093/jjfinec/nbaa007}.
+
+\bibitem[Markowitz(1952)]{markowitz1952}
+Harry Markowitz.
+\newblock Portfolio selection.
+\newblock \emph{The Journal of Finance}, 7\penalty0 (1):\penalty0 77--91, 1952.
+\newblock \doi{10.1111/j.1540-6261.1952.tb01525.x}.
+
+\bibitem[Sch{\"a}fer and Strimmer(2005)]{SchaferStrimmer2005}
+Juliane Sch{\"a}fer and Korbinian Strimmer.
+\newblock A shrinkage approach to large-scale covariance matrix estimation and
+  implications for functional genomics.
+\newblock \emph{Statistical Applications in Genetics and Molecular Biology},
+  4\penalty0 (1):\penalty0 Article 32, 2005.
+\newblock \doi{10.2202/1544-6115.1175}.
+
+\bibitem[Shi et~al.(2025)Shi, Shu, He, and Huang]{shi2025}
+Fangquan Shi, Lianjie Shu, Fangyi He, and Wenpo Huang.
+\newblock Improving minimum-variance portfolio through shrinkage of large
+  covariance matrices.
+\newblock \emph{Economic Modelling}, 144:\penalty0 106981, 2025.
+\newblock \doi{10.1016/j.econmod.2024.106981}.
+
+\end{thebibliography}

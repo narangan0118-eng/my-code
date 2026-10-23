@@ -1,0 +1,8 @@
+﻿Metric,Value
+Historical candidate tickers,453
+Eligible through 2022-05 (training only),337
+Eligible through 2026-09 (full history),337
+Training eligible but excluded by full-history rule,0
+Ineligible during training,116
+Training months,120
+OOS months,52

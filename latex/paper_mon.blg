@@ -1,55 +1,50 @@
 This is BibTeX, Version 0.99e
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: paper_mon.aux
-Case mismatch error between cite keys LedoitWolf2003 and ledoitwolf2003
----line 58 of file paper_mon.aux
- : \citation{LedoitWolf2003
- :                         ,DeMiguelGarlappiUppal2009}
-I'm skipping whatever remains of this command
 Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
 Warning--empty year in chinobing_sp500
-You've used 12 entries,
+You've used 16 entries,
             2773 wiz_defined-function locations,
-            677 strings with 6845 characters,
-and the built_in function-call counts, 5456 in all, are:
-= -- 532
-> -- 246
-< -- 10
-+ -- 85
-- -- 72
-* -- 450
-:= -- 844
-add.period$ -- 49
-call.type$ -- 12
-change.case$ -- 59
-chr.to.int$ -- 11
-cite$ -- 25
-duplicate$ -- 233
-empty$ -- 461
-format.name$ -- 98
-if$ -- 1134
+            710 strings with 7739 characters,
+and the built_in function-call counts, 7511 in all, are:
+= -- 725
+> -- 359
+< -- 14
++ -- 122
+- -- 105
+* -- 632
+:= -- 1155
+add.period$ -- 64
+call.type$ -- 16
+change.case$ -- 83
+chr.to.int$ -- 15
+cite$ -- 33
+duplicate$ -- 314
+empty$ -- 628
+format.name$ -- 143
+if$ -- 1566
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 10
-newline$ -- 81
-num.names$ -- 48
-pop$ -- 95
+missing$ -- 14
+newline$ -- 104
+num.names$ -- 64
+pop$ -- 129
 preamble$ -- 1
-purify$ -- 48
+purify$ -- 67
 quote$ -- 0
-skip$ -- 175
+skip$ -- 241
 stack$ -- 0
-substring$ -- 285
-swap$ -- 14
-text.length$ -- 0
+substring$ -- 400
+swap$ -- 18
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 132
+type$ -- 176
 warning$ -- 1
-while$ -- 55
+while$ -- 73
 width$ -- 0
-write$ -- 187
-(There was 1 error message)
+write$ -- 245
+(There was 1 warning)

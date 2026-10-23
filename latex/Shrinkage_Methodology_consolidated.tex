@@ -1,0 +1,180 @@
+% paper_mon(7).pdf болон study_three_portfolios_rolling_HAC_with_EW_costs(3).py-д
+% тулгуурласан нэгтгэсэн арга зүйн тайлбар.
+% ЭНЭ НЬ 2.4, 2.5-Р ХЭСГИЙН ТОВЧИЛСОН ОРЛУУЛАХ ХУВИЛБАР.
+% Өмнөх 2.4.1-ийн Лемм 1, Теорем 1 болон баталгааг хамтад нь хасна.
+
+\section{Ковариацын матрицын агшилтын үнэлгээ}
+
+\subsection{Нийтлэг тэмдэглэгээ ба шугаман агшилт}
+$n$ сарын өгөөж, $N$ хөрөнгийн хувьд $y_{ti}$-г $t$-р сарын
+$i$-р хөрөнгийн өгөөж, $\bar y_i=n^{-1}\sum_{t=1}^n y_{ti}$-г
+түүврийн дундаж гэе. $x_{ti}=y_{ti}-\bar y_i$ болон
+$X=(x_{ti})$ гэж тэмдэглэвэл энэхүү судалгааны Python
+хэрэгжүүлэлтэд
+\[
+ S=\frac{1}{n}X^\top X,\qquad
+ s_{ij}=\frac{1}{n}\sum_{t=1}^n x_{ti}x_{tj}
+\]
+гэж тооцно. Энэ нь $1/(n-1)$ хуваарьтай хазайлтгүй
+түүврийн ковариацын үнэлэгчээс ялгаатай. Бие даасан, ижил
+тархалттай ажиглалтын хувьд $E[S]=(n-1)\Sigma/n$ байна.
+
+Шугаман агшилтын үнэлэгчийн ерөнхий хэлбэр
+\[
+ \widehat\Sigma_k=(1-\widehat\alpha_k)S+
+ \widehat\alpha_k T_k,\qquad 0\le\widehat\alpha_k\le1,
+\]
+энд $T_k$ нь тухайн аргын зорилтот матриц юм.
+Тооцооллын нийтлэг хэмжигдэхүүнүүдийг
+\[
+ z_{tij}=x_{ti}x_{tj},\qquad
+ \widehat b=\frac{1}{n^2N}\sum_{t=1}^n\sum_{i=1}^N
+ \sum_{j=1}^N(z_{tij}-s_{ij})^2,
+ \qquad
+ \widehat d_k=\frac1N\sum_{i=1}^N\sum_{j=1}^N
+ (s_{ij}-(T_k)_{ij})^2
+\]
+гэж авна. $\widehat d_k>0$ үед доор өгсөн харьцааг
+$[0,1]$ завсарт хязгаарлаж агшилтын эрчмийг тооцно.
+Эдгээр нь кодод хэрэгжүүлсэн өгөгдөлд суурилсан
+коэффициентийн үнэлгээнүүд юм.
+
+Зорилтот матрицууд $S$-ээс тооцогддог тул санамсаргүй
+бус $T$ болон $E[S]=\Sigma$ нөхцөлд гаргасан
+$\alpha^*=b/d$ гэсэн төгсгөлөг түүврийн баталгааг эдгээр
+үнэлэгчид шууд хэрэглэхгүй. Иймээс энд асимптотик
+аргачлалын хэрэгжүүлэлтийг тодорхойлж байгаа бөгөөд
+төслийн өгөгдөлд яг оновчтой болохыг батлаагүй.
+
+\subsection{Тогтмол вариацын зорилтот матриц (Var)}
+\[
+ \widehat\mu=\frac{\operatorname{tr}(S)}{N},\qquad
+ T_{\mathrm{var}}=\widehat\mu I_N,\qquad
+ \widehat\alpha_{\mathrm{var}}=
+ \left[\frac{\widehat b}{\widehat d_{\mathrm{var}}}\right]_0^1.
+\]
+Энд $[a]_0^1=\min\{1,\max\{0,a\}\}$.
+$\widehat d_{\mathrm{var}}=0$ үед код
+$\widehat\alpha_{\mathrm{var}}=1$ гэж авна.
+
+\subsection{Диагональ зорилтот матриц (Diag)}
+\[
+ T_{\mathrm{diag}}=\operatorname{diag}(s_{11},\ldots,s_{NN}),
+ \qquad
+ \widehat b_{\mathrm{diag}}=\frac{1}{n^2N}
+ \sum_{t=1}^n\sum_{i\ne j}(z_{tij}-s_{ij})^2,
+\]
+\[
+ \widehat\alpha_{\mathrm{diag}}=
+ \left[\frac{\widehat b_{\mathrm{diag}}}
+ {\widehat d_{\mathrm{diag}}}\right]_0^1.
+\]
+Энэ арга зөвхөн диагоналийн бус элементүүдийг агшаана.
+$\widehat d_{\mathrm{diag}}=0$ үед код коэффициентийг
+нэгтэй тэнцүүлнэ.
+
+\subsection{Тогтмол корреляцын зорилтот матриц (Corr)}
+\[
+ r_{ij}=\frac{s_{ij}}{\sqrt{s_{ii}s_{jj}}},\qquad
+ \bar r=\frac{1}{N(N-1)}\sum_{i\ne j}r_{ij},
+\]
+\[
+ (T_{\mathrm{corr}})_{ij}=
+ \begin{cases}s_{ii},&i=j,\\
+ \bar r\sqrt{s_{ii}s_{jj}},&i\ne j.
+ \end{cases}
+\]
+Кодод $v_i=n^{-1}\sum_t(x_{ti}^2-s_{ii})^2$ болон
+\[
+ \theta_{ii,ij}=\frac1n\sum_t(x_{ti}^2-s_{ii})
+ (x_{ti}x_{tj}-s_{ij}),\qquad
+ \theta_{jj,ij}=\frac1n\sum_t(x_{tj}^2-s_{jj})
+ (x_{ti}x_{tj}-s_{ij})
+\]
+гэж тооцоод
+\[
+ \widehat c_{\mathrm{corr}}=\frac{1}{nN}
+ \left[\sum_{i=1}^N v_i+
+ \frac{\bar r}{2}\sum_{i\ne j}
+ \left(\sqrt{\frac{s_{jj}}{s_{ii}}}\theta_{ii,ij}+
+ \sqrt{\frac{s_{ii}}{s_{jj}}}\theta_{jj,ij}\right)\right],
+\]
+\[
+ \widehat\alpha_{\mathrm{corr}}=
+ \left[\frac{\widehat b-\widehat c_{\mathrm{corr}}}
+ {\widehat d_{\mathrm{corr}}}\right]_0^1
+\]
+гэж ашиглана. $\widehat d_{\mathrm{corr}}=0$ үед
+коэффициентийг нэгтэй тэнцүүлнэ.
+
+\subsection{Нэг хүчин зүйлийн зорилтот матриц (SF)}
+Зах зээлийн хүчин зүйлийг S\&P 500 индексийн сарын өгөөж
+$m_t$-ээр төлөөлүүлнэ. $u_t=m_t-\bar m$ гэвэл
+\[
+ \widehat\sigma_m^2=\frac1n\sum_tu_t^2,\quad
+ \widehat\beta_i=\frac{\sum_t x_{ti}u_t}{\sum_tu_t^2},\quad
+ e_{ti}=x_{ti}-\widehat\beta_i u_t,\quad
+ \widehat\sigma_{\varepsilon,i}^2=\frac1n\sum_te_{ti}^2.
+\]
+\[
+ T_{\mathrm{SF}}=\widehat\sigma_m^2
+ \widehat\beta\widehat\beta^\top+
+ \operatorname{diag}(\widehat\sigma_{\varepsilon,1}^2,
+ \ldots,\widehat\sigma_{\varepsilon,N}^2).
+\]
+Кодын хам хэлбэлзлийн хэмжигдэхүүнийг
+\[
+ a_{tij}=\begin{cases}
+ x_{ti}^2-s_{ii},&i=j,\\
+ \widehat\beta_j x_{ti}u_t+
+ \widehat\beta_i x_{tj}u_t-
+ \widehat\beta_i\widehat\beta_j u_t^2-
+ (T_{\mathrm{SF}})_{ij},&i\ne j
+ \end{cases}
+\]
+гэж тодорхойлж,
+\[
+ \widehat c_{\mathrm{SF}}=\frac{1}{nN}
+ \sum_{i=1}^N\sum_{j=1}^N
+ \left\{\frac1n\sum_{t=1}^n
+ a_{tij}(z_{tij}-s_{ij})\right\},
+ \qquad
+ \widehat\alpha_{\mathrm{SF}}=
+ \left[\frac{\widehat b-\widehat c_{\mathrm{SF}}}
+ {\widehat d_{\mathrm{SF}}}\right]_0^1
+\]
+гэж авна. $\widehat d_{\mathrm{SF}}=0$ үед
+коэффициентийг нэгтэй тэнцүүлнэ.
+
+\subsection{Аналитик шугаман бус агшилт (NLS)}
+$S=U\Lambda U^\top$, $\Lambda=\operatorname{diag}
+(\lambda_1,\ldots,\lambda_N)$ гэе. Кодод
+$c=N/n$, $h=n^{-1/3}$, $h_j=\lambda_jh$ гэж авч,
+Epanechnikov kernel $k$ болон түүний Hilbert
+хувиргалт $Hk$-д тулгуурлан
+\[
+ \widehat f(\lambda_i)=\frac1N\sum_{j=1}^N
+ \frac{1}{h_j}k\!\left(\frac{\lambda_i-\lambda_j}{h_j}\right),
+\]
+\[
+ \widehat{Hf}(\lambda_i)=\frac1N\sum_{j=1}^N
+ \frac{1}{h_j}Hk\!\left(\frac{\lambda_i-\lambda_j}{h_j}\right)
+\]
+гэж тооцно. Үүний дараа
+\[
+ \widehat d_i=\frac{\lambda_i}{
+ [1-c-c\pi\lambda_i\widehat{Hf}(\lambda_i)]^2+
+ [c\pi\lambda_i\widehat f(\lambda_i)]^2},\qquad
+ \widehat\Sigma_{\mathrm{NLS}}=
+ U\operatorname{diag}(\widehat d_1,\ldots,\widehat d_N)U^\top.
+\]
+Кодод тоон тогтвортой байдлын үүднээс $\lambda_i$-г
+доод тал нь $10^{-8}$ байхаар хязгаарладаг.
+Энэхүү $N=10$, $n=120$ нөхцөлд асимптотик
+NLS-ийн ойролцооллын чанарыг зөвхөн томьёогоор
+баталгаажуулах боломжгүй; тоон баталгаажуулалт
+шаардлагатай.
+
+% ЧУХАЛ: Эндэх томьёонууд нь өгсөн Python кодын
+% хэрэгжүүлэлтийг тайлбарлана. Тэдгээрийн бүх асимптотик
+% онолын нөхцөлийг бие даан баталсан гэсэн үг биш.

@@ -1,13 +1,13 @@
 """Finalize three disjoint 10-stock portfolios using training returns only.
-Input: Candidate_Universe_Sensitivity.xlsx (the 453/337-stock version).
-Outputs: Final_Three_Portfolios.xlsx, final_portfolio_tickers.csv.
+Input: Eligible_337_Monthly_Returns.xlsx (complete monthly returns; no K-sensitivity).
+Outputs: Final_Three_Portfolios_337.xlsx, final_portfolio_tickers_337.csv.
 """
 from pathlib import Path
 import numpy as np
 import pandas as pd
 
 BASE = Path(__file__).resolve().parent
-INPUT = BASE / 'Candidate_Universe_Sensitivity.xlsx'
+INPUT = BASE / 'Eligible_337_Monthly_Returns.xlsx'
 OUTPUT = BASE / 'Final_Three_Portfolios_337.xlsx'
 CSV_OUTPUT = BASE / 'final_portfolio_tickers_337.csv'
 N, TRAIN_MONTHS = 10, 120
@@ -84,7 +84,7 @@ def main():
     members_df = pd.DataFrame(member_rows)
     config = pd.DataFrame([
         ('Candidate source', INPUT.name), ('Eligible stocks', len(eligible)),
-        ('Universe K', K), ('Assets per portfolio N', N),
+        ('Eligible universe size', K), ('Assets per portfolio N', N),
         ('Universe rule', 'All eligible tickers, alphabetically sorted'), ('Search seed', SEARCH_SEED),
         ('Search trials per portfolio', SEARCH_TRIALS),
         ('Disjoint portfolios', REQUIRE_DISJOINT),

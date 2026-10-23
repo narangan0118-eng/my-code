@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 BASE = Path(__file__).resolve().parent
 
-RESULTS = BASE / "GMVP_Three_Portfolios_Results"
+RESULTS = BASE / "GMVP_All_Portfolios_Results"
 
 PORTFOLIOS = ["High", "Medium", "Low"]
 METHODS = ["Var", "Diag", "Corr", "SF", "NLS"]
